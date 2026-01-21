@@ -9,6 +9,14 @@
 - **Performance**: Handle 10,000+ nodes smoothly
 - **Simplicity**: Clean, intuitive interface like modern map apps
 
+## Tree Layout
+
+**Direction**: Vertical, bottom-to-top
+- People born closer to today appear at the **bottom** of the tree
+- Ancestors grow **upward** (older generations at top)
+- Each node can have **any number of children** (unlimited)
+- Each node can have **only two parents** (biological mother/father)
+
 ## Tech Stack
 
 | Layer | Technology |
@@ -143,3 +151,67 @@ npm run preview  # Preview production build
 npm run lint     # Run ESLint
 npm run test     # Run tests
 ```
+
+## GEDCOM Format Support
+
+GEDCOM 5.5.1 standard fields supported:
+
+### Header (HEAD)
+- `GEDC` - GEDCOM version
+- `CHAR` - Character encoding (UTF-8)
+- `LANG` - Language
+- `SOUR` - Source application
+- `DATE` - Export date
+
+### Individual Records (INDI)
+**Identity:**
+- `NAME` - Full name with `GIVN` (given), `SURN` (surname), `_MARNM` (married name)
+- `SEX` - Gender (M/F/U)
+
+**Life Events:**
+- `BIRT` - Birth (DATE, PLAC)
+- `DEAT` - Death (DATE, PLAC, CAUS)
+- `BURI` - Burial (PLAC)
+
+**Residence & Contact:**
+- `RESI` - Residence with ADDRESS structure (ADR1, ADR2, CITY, STAE, CTRY, POST)
+- `EMAIL`, `PHON`, `WWW`
+
+**Life Details:**
+- `OCCU` - Occupation (DATE, PLAC, NOTE)
+- `EDUC` - Education (DATE, PLAC, NOTE)
+- `RELI` - Religion
+- `NATI` - Nationality
+- `DSCR` - Physical description
+
+**Custom Events:**
+- `EVEN` - Generic events with TYPE (Hobbies, Sports, Languages, Politics, etc.)
+
+**Relationships:**
+- `FAMS` - Family as spouse (reference to FAM)
+- `FAMC` - Family as child (reference to FAM)
+
+**Other:**
+- `NOTE` - Notes (supports HTML)
+- `OBJE` - Media objects (photos, documents)
+- `SOUR` - Source citations
+
+### Family Records (FAM)
+- `HUSB` - Husband reference (INDI)
+- `WIFE` - Wife reference (INDI)
+- `CHIL` - Children references (multiple INDI)
+- `MARR` - Marriage event (DATE, PLAC)
+- `DIV` - Divorce event
+
+### Source Records (SOUR)
+- `AUTH` - Author
+- `TITL` - Title
+- `PUBL` - Publisher
+- `TEXT` - Text content
+
+### Date Formats
+- Exact: `15 JAN 1950`
+- Approximate: `ABT 1950`, `EST 1950`
+- Range: `FROM 1950 TO 1960`, `BET 1950 AND 1960`
+- Partial: `1950`, `JAN 1950`
+- Modifiers: `AFT` (after), `BEF` (before)
