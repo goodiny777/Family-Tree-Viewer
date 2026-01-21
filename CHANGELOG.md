@@ -1,0 +1,158 @@
+# Changelog
+
+All notable changes to FamilyTree View will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+## [0.1.0] - 2026-01-21
+
+### Added
+
+#### Phase 1: Project Setup & Foundation
+
+**Project Initialization**
+- Initialized Vite 6 + React 18 + TypeScript project
+- Configured Tailwind CSS 3.4 with custom design tokens matching the designer brief
+- Added Google Fonts: Playfair Display (headers) + Source Sans 3 (body)
+- Set up Zustand 4.5 for state management with persisted settings
+- Configured ESLint 9 + Prettier for code quality
+- Set up Vitest for unit testing with React Testing Library
+
+**Design System**
+- Created comprehensive CSS variables for all color tokens:
+  - Primary colors (Oak Leaf palette: #5D6B4D, #3A4A35, #7A8B6A)
+  - Accent colors (Branch Brown palette: #8B7355, #6B5344, #A08B70)
+  - Background colors (Parchment palette: #F5EFE0, #E8DCC8, #D4C4A8)
+  - Node colors (Male: blue tones, Female: pink tones, with deceased variants)
+  - Semantic colors (error, focus, highlight)
+- Created typography scale matching the brief specifications
+- Added dark theme CSS variables
+
+**Core Infrastructure**
+- Defined TypeScript types for:
+  - `Individual` - Person records with full GEDCOM field support
+  - `Family` - Family relationships (spouses, children)
+  - `TreeNode` - Layout nodes for canvas rendering
+  - `Connection` - Relationship lines between nodes
+  - `AppSettings` - User preferences
+  - `ViewportState` - Pan/zoom state
+  - `SelectionState` - Focus and highlight tracking
+
+**State Management (Zustand)**
+- `gedcomSlice` - GEDCOM data and loading state
+- `treeSlice` - Layout nodes and connections
+- `viewportSlice` - Pan, zoom, fit-to-screen, center-on-node
+- `selectionSlice` - Focus and highlight management
+- `settingsSlice` - User preferences with localStorage persistence
+- `recentFilesSlice` - Recent file history
+- `uiSlice` - Panel visibility, overlays, dialogs
+
+**UI Components**
+- `Button` - Primary, secondary, ghost variants with loading state
+- `Input` - Text input with label, error, and icons
+- `Slider` - Range input with value display
+- `Toggle` - Switch component with label and description
+- `Tabs` - Tab navigation with TabsList, Tab, TabsPanel
+
+**GEDCOM Parser**
+- Full GEDCOM 5.5.1 parser using `parse-gedcom` library
+- Supports all individual tags: NAME, SEX, BIRT, DEAT, BURI, RESI, OCCU, EDUC, etc.
+- Supports family tags: HUSB, WIFE, CHIL, MARR, DIV
+- Date parsing for various GEDCOM date formats
+- Address structure parsing
+- Unit tests for parser validation
+
+**Canvas Rendering**
+- `CanvasRenderer` class with 60fps render loop
+- Viewport transformation (pan + zoom)
+- Node rendering with 3 sizes (compact, standard, detailed)
+- Gender-based coloring (male blue, female pink)
+- Deceased styling (desaturated colors)
+- Focused node highlight (golden border with glow)
+- Connection line rendering (curved Bezier paths)
+- Text truncation for node labels
+
+**Components**
+- `WelcomeScreen` - Landing page with:
+  - Logo and branding
+  - Drag & drop zone for GEDCOM files
+  - "Open file" button
+  - "Load sample" link for example.ged
+  - Recent files dropdown
+  - Parchment background styling
+
+- `MainView` - Main application shell
+- `TopBar` - Navigation with Search, Import, Export, Settings
+- `ZoomControls` - Zoom slider, +/- buttons, fit-to-screen
+- `GenerationSlider` - Filter by generation depth
+- `Minimap` - Tree overview with viewport indicator
+- `SidePanel` - Collapsible panel with tabs:
+  - Person Info tab (details, family links)
+  - Settings tab (display options, theme, connection style)
+- `SearchOverlay` - Fuzzy search with keyboard navigation
+- `ExportDialog` - Export options (PNG, PDF, SVG)
+- `ShortcutsOverlay` - Keyboard shortcut reference
+
+**Keyboard Shortcuts**
+- Arrow keys: Pan canvas
+- +/-: Zoom in/out
+- 0: Fit to screen
+- Cmd/Ctrl+F: Open search
+- Escape: Close overlays, deselect
+- ?: Show shortcuts overlay
+
+**Assets**
+- Copied example.ged to public folder
+- Copied background.jpg (parchment texture)
+- Copied gen_to_tree.png (logo)
+- Created favicon.svg
+
+### Technical Notes
+
+- All data processing is client-side (privacy-first architecture)
+- Canvas rendering uses device pixel ratio for crisp rendering
+- State persistence via Zustand middleware (settings, recent files)
+- Responsive design foundations with Tailwind breakpoints
+- Dark mode CSS variables prepared (not yet activated)
+
+### Dependencies
+
+**Runtime:**
+- react 18.3.1
+- react-dom 18.3.1
+- zustand 4.5.5
+- d3-hierarchy 3.1.2
+- d3-shape 3.2.0
+- parse-gedcom 2.0.1
+- html2canvas 1.4.1
+- jspdf 2.5.2
+- react-i18next 14.1.3
+- i18next 23.16.8
+
+**Development:**
+- vite 6.0.6
+- typescript 5.6.2
+- tailwindcss 3.4.17
+- vitest 2.1.8
+- eslint 9.17.0
+- prettier 3.4.2
+
+---
+
+## Roadmap
+
+### Phase 2: Layout Engine (Next)
+- d3-hierarchy integration for tree layout
+- View modes (All Relatives, Family, Hourglass, Pedigree)
+- Connection path calculations
+
+### Phase 3-18: See development plan
+- Canvas rendering optimizations
+- Export functionality
+- Dark mode activation
+- PWA support
+- Internationalization
+- Accessibility improvements

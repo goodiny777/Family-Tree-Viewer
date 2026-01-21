@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Tree trunk -->
+  <path d="M14 20 L14 28 L18 28 L18 20" fill="#8B7355"/>
+  <!-- Tree foliage -->
+  <circle cx="16" cy="12" r="10" fill="#5D6B4D"/>
+  <circle cx="10" cy="14" r="6" fill="#7A8B6A"/>
+  <circle cx="22" cy="14" r="6" fill="#7A8B6A"/>
+  <circle cx="16" cy="8" r="5" fill="#5D6B4D"/>
+</svg>

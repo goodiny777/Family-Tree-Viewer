@@ -1,0 +1,186 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CSS Variables for runtime theming */
+:root {
+  /* Primary Colors */
+  --color-primary: #5D6B4D;
+  --color-primary-dark: #3A4A35;
+  --color-primary-light: #7A8B6A;
+
+  /* Accent Colors */
+  --color-accent: #8B7355;
+  --color-accent-dark: #6B5344;
+  --color-accent-light: #A08B70;
+
+  /* Background Colors */
+  --color-bg-canvas: #F5EFE0;
+  --color-bg-panel: #E8DCC8;
+  --color-bg-aged: #D4C4A8;
+
+  /* Text Colors */
+  --color-text-primary: #2D3B2A;
+  --color-text-secondary: #5D6B4D;
+  --color-text-muted: #7A8B6A;
+
+  /* Semantic Colors */
+  --color-error: #B54B4B;
+  --color-focus: #4A7B9D;
+  --color-highlight: #F4A825;
+
+  /* Node Colors - Male */
+  --color-node-male-bg: #E3EBF6;
+  --color-node-male-border: #7A9BC7;
+  --color-node-male-deceased-bg: #D4DBE6;
+  --color-node-male-deceased-border: #6B8BB7;
+
+  /* Node Colors - Female */
+  --color-node-female-bg: #F6E3EB;
+  --color-node-female-border: #C77A9B;
+  --color-node-female-deceased-bg: #E6D4DB;
+  --color-node-female-deceased-border: #B76B8B;
+
+  /* Node Colors - Unknown */
+  --color-node-unknown-bg: #E8E8E8;
+  --color-node-unknown-border: #A0A0A0;
+
+  /* Node Colors - Focused */
+  --color-node-focused-bg: #FFF8E1;
+  --color-node-focused-border: #F4A825;
+}
+
+/* Dark theme */
+.dark {
+  --color-primary: #7A8B6A;
+  --color-primary-dark: #5D6B4D;
+  --color-primary-light: #9AAC8A;
+
+  --color-accent: #A08B70;
+  --color-accent-dark: #8B7355;
+  --color-accent-light: #B5A090;
+
+  --color-bg-canvas: #1E2318;
+  --color-bg-panel: #2A3022;
+  --color-bg-aged: #3A4032;
+
+  --color-text-primary: #E8E4DC;
+  --color-text-secondary: #C4C0B8;
+  --color-text-muted: #9A968E;
+
+  /* Node colors adjusted for dark mode */
+  --color-node-male-bg: #2A3444;
+  --color-node-male-border: #5A7AA4;
+  --color-node-male-deceased-bg: #222A34;
+  --color-node-male-deceased-border: #4A6A94;
+
+  --color-node-female-bg: #3A2A34;
+  --color-node-female-border: #A45A7A;
+  --color-node-female-deceased-bg: #322228;
+  --color-node-female-deceased-border: #944A6A;
+
+  --color-node-unknown-bg: #2A2A2A;
+  --color-node-unknown-border: #606060;
+
+  --color-node-focused-bg: #3A3420;
+  --color-node-focused-border: #F4A825;
+}
+
+/* Base styles */
+@layer base {
+  html {
+    font-family: 'Source Sans 3', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+
+  body {
+    @apply bg-bg-canvas text-text-primary;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Prevent text selection during canvas drag */
+  .no-select {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+}
+
+/* Component styles */
+@layer components {
+  /* Button base styles */
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium transition-all duration-150;
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary text-white hover:bg-primary-dark focus:ring-primary;
+  }
+
+  .btn-secondary {
+    @apply btn bg-bg-panel text-text-primary border border-accent hover:bg-bg-aged focus:ring-accent;
+  }
+
+  .btn-icon {
+    @apply p-2 rounded-lg hover:bg-bg-panel transition-colors duration-150;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary;
+  }
+
+  /* Input styles */
+  .input {
+    @apply w-full px-3 py-2 rounded-lg border border-accent bg-white;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent;
+    @apply placeholder:text-text-muted;
+  }
+
+  /* Panel styles */
+  .panel {
+    @apply bg-bg-panel rounded-lg shadow-panel;
+  }
+
+  /* Card styles */
+  .card {
+    @apply bg-white rounded-lg shadow-node p-4;
+  }
+}
+
+/* Utility styles */
+@layer utilities {
+  /* Scrollbar styling */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-accent) var(--color-bg-panel);
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: var(--color-bg-panel);
+    border-radius: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: var(--color-accent);
+    border-radius: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: var(--color-accent-dark);
+  }
+
+  /* Canvas cursor styles */
+  .cursor-grab {
+    cursor: grab;
+  }
+
+  .cursor-grabbing {
+    cursor: grabbing;
+  }
+}

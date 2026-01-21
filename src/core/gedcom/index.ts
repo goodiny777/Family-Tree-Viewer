@@ -1,0 +1,1 @@
+export { parseGedcomFile } from './parser'
