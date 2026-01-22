@@ -79,6 +79,24 @@
 - Minimap for navigation
 - Generation depth control
 
+## View Mode Behavior
+
+| Mode | Ancestors | Descendants | Spouses | Generation Limit |
+|------|-----------|-------------|---------|------------------|
+| All Relatives | All | All | All | Applied symmetrically |
+| Family | Parents only | Children only | Direct spouses | N/A |
+| Hourglass | All | All | With visible children | Applied symmetrically |
+| Pedigree | All | None | With visible children | **Not applied** (shows all ancestors) |
+
+**Spouse Visibility Rule (Hourglass/Pedigree):**
+- Spouses are only shown if they share at least one visible child with a person in the tree
+- This prevents disconnected spouse nodes that have no connection lines
+
+**Layout Algorithm:**
+1. **Initial positioning** - Nodes placed by generation level with siblings grouped
+2. **Parent centering** - Parents positioned above center of their children
+3. **Collision resolution** - Overlapping nodes at same level pushed apart, then re-centered
+
 ## File Structure
 
 ```

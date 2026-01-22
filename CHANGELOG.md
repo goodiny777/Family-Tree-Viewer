@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+#### Pedigree & Hourglass View Improvements
+
+**Disconnected Spouse Nodes**
+- Fixed issue where spouses of ancestors appeared as disconnected nodes without connection lines
+- Spouses are now only shown if they have at least one visible child in the tree
+- Implemented `addSpousesWithConnections()` function to filter spouses based on visible connections
+
+**Pedigree View Ancestor Display**
+- Pedigree view now shows all connected ancestors without generation depth limits
+- Generation depth filter no longer cuts off distant ancestors in pedigree view
+- Hourglass view still applies symmetric generation limits as before
+
+**Node Overlap Prevention**
+- Added collision detection pass to prevent overlapping nodes at the same generation level
+- After parent-centering, nodes are pushed apart if they overlap (minimum spacing enforced)
+- Level is re-centered after collision resolution to minimize drift from parent-child alignment
+- Particularly improves display of upper generations in pedigree view where ancestor tree converges
+
+**Null Safety**
+- Added safety checks for `getBirthYear()` calls to handle cases where individuals might not exist in filtered data
+- Prevents runtime errors when sorting nodes by birth year
+
 ## [0.1.0] - 2026-01-21
 
 ### Added
