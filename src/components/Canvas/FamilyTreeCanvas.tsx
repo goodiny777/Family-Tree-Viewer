@@ -12,8 +12,11 @@ export function FamilyTreeCanvas() {
   const connections = useStore((state) => state.tree.connections)
   const bounds = useStore((state) => state.tree.bounds)
   const levelBands = useStore((state) => state.tree.levelBands)
-  const { viewport, setViewport, centerOnNode } = useStore((state) => state.viewport)
-  const { selection, setFocusedPerson } = useStore((state) => state.selection)
+  const viewport = useStore((state) => state.viewport.viewport)
+  const setViewport = useStore((state) => state.viewport.setViewport)
+  const centerOnNode = useStore((state) => state.viewport.centerOnNode)
+  const selection = useStore((state) => state.selection.selection)
+  const setFocusedPerson = useStore((state) => state.selection.setFocusedPerson)
   const settings = useStore((state) => state.settings.settings)
 
   // Initialize canvas interactions

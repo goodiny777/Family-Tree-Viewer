@@ -28,6 +28,9 @@ export class CanvasRenderer {
   private canvas: HTMLCanvasElement
   private ctx: CanvasRenderingContext2D
   private dpr: number
+  private maleIcon: HTMLImageElement | null = null
+  private femaleIcon: HTMLImageElement | null = null
+  private iconsLoaded = false
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas
@@ -35,6 +38,28 @@ export class CanvasRenderer {
     if (!ctx) throw new Error('Failed to get canvas 2D context')
     this.ctx = ctx
     this.dpr = window.devicePixelRatio || 1
+    this.loadIcons()
+  }
+
+  /**
+   * Load gender icons
+   */
+  private loadIcons() {
+    let loadedCount = 0
+    const onLoad = () => {
+      loadedCount++
+      if (loadedCount === 2) {
+        this.iconsLoaded = true
+      }
+    }
+
+    this.maleIcon = new Image()
+    this.maleIcon.onload = onLoad
+    this.maleIcon.src = '/icon_man.png'
+
+    this.femaleIcon = new Image()
+    this.femaleIcon.onload = onLoad
+    this.femaleIcon.src = '/icon_woman.png'
   }
 
   /**
@@ -266,7 +291,7 @@ export class CanvasRenderer {
   }
 
   /**
-   * Render a circular node with photo placeholder and name label
+   * Render a node using the gender icon as the tile
    */
   private renderCircularNode(
     node: TreeNode,
@@ -277,50 +302,34 @@ export class CanvasRenderer {
   ) {
     const { x, y, radius, person } = node
 
-    // Get node colors
-    const colors = this.getNodeColors(person.gender, person.isDeceased, isFocused)
-
-    // Draw shadow for highlighted nodes
+    // Draw shadow for highlighted/focused nodes
     if (isHighlighted || isFocused) {
-      this.ctx.shadowColor = isFocused ? 'rgba(244, 168, 37, 0.4)' : 'rgba(0, 0, 0, 0.2)'
-      this.ctx.shadowBlur = isFocused ? 12 : 8
-      this.ctx.shadowOffsetY = 2
+      this.ctx.shadowColor = isFocused ? 'rgba(244, 168, 37, 0.5)' : 'rgba(0, 0, 0, 0.3)'
+      this.ctx.shadowBlur = isFocused ? 15 : 10
+      this.ctx.shadowOffsetY = 3
     }
 
-    // Draw circle background
-    this.ctx.beginPath()
-    this.ctx.arc(x, y, radius, 0, Math.PI * 2)
-    this.ctx.fillStyle = colors.background
-    this.ctx.fill()
+    // Draw the person icon as the full tile
+    this.drawPersonIcon(x, y, radius, person.gender, isFocused)
 
     // Reset shadow
     this.ctx.shadowColor = 'transparent'
     this.ctx.shadowBlur = 0
     this.ctx.shadowOffsetY = 0
 
-    // Draw border
-    this.ctx.beginPath()
-    this.ctx.arc(x, y, radius, 0, Math.PI * 2)
-    this.ctx.strokeStyle = colors.border
-    this.ctx.lineWidth = isFocused ? 3 : 2
-    this.ctx.stroke()
-
     // Draw focused glow ring
     if (isFocused) {
       this.ctx.beginPath()
-      this.ctx.arc(x, y, radius + 4, 0, Math.PI * 2)
-      this.ctx.strokeStyle = 'rgba(244, 168, 37, 0.5)'
-      this.ctx.lineWidth = 3
+      this.ctx.arc(x, y, radius + 5, 0, Math.PI * 2)
+      this.ctx.strokeStyle = 'rgba(244, 168, 37, 0.6)'
+      this.ctx.lineWidth = 4
       this.ctx.stroke()
     }
 
-    // Minimal LOD: just show colored circle
+    // Minimal LOD: just show icon
     if (lod === 'minimal') {
       return
     }
-
-    // Draw person silhouette icon inside circle
-    this.drawPersonIcon(x, y, radius * 0.6, colors.border)
 
     // Standard and Full LOD: show name label below
     if (lod === 'standard' || lod === 'full') {
@@ -346,33 +355,63 @@ export class CanvasRenderer {
   }
 
   /**
-   * Draw person silhouette icon (similar to the design reference)
+   * Draw person icon as the full tile
    */
-  private drawPersonIcon(x: number, y: number, size: number, color: string) {
-    this.ctx.save()
-    this.ctx.translate(x, y)
+  private drawPersonIcon(x: number, y: number, radius: number, gender: 'M' | 'F' | 'U', isFocused: boolean = false) {
+    // Select the appropriate icon based on gender
+    const icon = gender === 'F' ? this.femaleIcon : this.maleIcon
 
-    // Scale to fit size
-    const scale = size / 14
+    if (icon && this.iconsLoaded) {
+      // Draw the image centered at (x, y) - size is diameter + 50%
+      const iconSize = radius * 3
+      this.ctx.drawImage(
+        icon,
+        x - iconSize / 2,
+        y - iconSize / 2,
+        iconSize,
+        iconSize
+      )
+    } else {
+      // Fallback: draw colored circle with silhouette if images not loaded
+      const colors = this.getNodeColors(gender, false, isFocused)
 
-    this.ctx.fillStyle = color
-    this.ctx.globalAlpha = 0.35
+      // Draw circle background
+      this.ctx.beginPath()
+      this.ctx.arc(x, y, radius, 0, Math.PI * 2)
+      this.ctx.fillStyle = colors.background
+      this.ctx.fill()
 
-    // Head (circle) - positioned higher
-    this.ctx.beginPath()
-    this.ctx.arc(0, -5 * scale, 4.5 * scale, 0, Math.PI * 2)
-    this.ctx.fill()
+      // Draw border
+      this.ctx.beginPath()
+      this.ctx.arc(x, y, radius, 0, Math.PI * 2)
+      this.ctx.strokeStyle = colors.border
+      this.ctx.lineWidth = 2
+      this.ctx.stroke()
 
-    // Body/shoulders (wider, flatter ellipse)
-    this.ctx.beginPath()
-    this.ctx.moveTo(-8 * scale, 8 * scale)
-    this.ctx.quadraticCurveTo(-8 * scale, 2 * scale, 0, 2 * scale)
-    this.ctx.quadraticCurveTo(8 * scale, 2 * scale, 8 * scale, 8 * scale)
-    this.ctx.lineTo(-8 * scale, 8 * scale)
-    this.ctx.fill()
+      // Draw simple silhouette
+      this.ctx.save()
+      this.ctx.translate(x, y)
 
-    this.ctx.globalAlpha = 1
-    this.ctx.restore()
+      const scale = radius * 0.6 / 14
+      this.ctx.fillStyle = colors.border
+      this.ctx.globalAlpha = 0.35
+
+      // Head
+      this.ctx.beginPath()
+      this.ctx.arc(0, -5 * scale, 4.5 * scale, 0, Math.PI * 2)
+      this.ctx.fill()
+
+      // Body
+      this.ctx.beginPath()
+      this.ctx.moveTo(-8 * scale, 8 * scale)
+      this.ctx.quadraticCurveTo(-8 * scale, 2 * scale, 0, 2 * scale)
+      this.ctx.quadraticCurveTo(8 * scale, 2 * scale, 8 * scale, 8 * scale)
+      this.ctx.lineTo(-8 * scale, 8 * scale)
+      this.ctx.fill()
+
+      this.ctx.globalAlpha = 1
+      this.ctx.restore()
+    }
   }
 
   /**

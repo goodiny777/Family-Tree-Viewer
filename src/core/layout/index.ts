@@ -986,7 +986,6 @@ function generateVerticalConnections(data: GedcomData, nodes: TreeNode[]): Conne
     const husbandNode = family.husband ? nodeMap.get(family.husband) : undefined
     const wifeNode = family.wife ? nodeMap.get(family.wife) : undefined
 
-    // Spouse connection (horizontal line between couple at same Y)
     if (husbandNode && wifeNode) {
       const connId = `spouse-${family.husband}-${family.wife}`
       if (!connectionSet.has(connId)) {
@@ -1002,9 +1001,9 @@ function generateVerticalConnections(data: GedcomData, nodes: TreeNode[]): Conne
           sourceId: leftNode.id,
           targetId: rightNode.id,
           path: {
-            startX: leftNode.x + leftNode.radius,
+            startX: leftNode.x,
             startY: leftNode.y,
-            endX: rightNode.x - rightNode.radius,
+            endX: rightNode.x,
             endY: rightNode.y,
           },
         })
@@ -1063,7 +1062,7 @@ function generateVerticalConnections(data: GedcomData, nodes: TreeNode[]): Conne
         connectionSet.add(connId)
 
         const childX = childNode.x
-        const childY = childNode.y - childNode.radius
+        const childY = childNode.y
 
         // Midpoint for the bezier curve
         const midY = (parentY + childY) / 2
