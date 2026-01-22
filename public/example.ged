@@ -1,0 +1,415 @@
+0 HEAD
+1 GEDC
+2 VERS 5.5.1
+2 FORM LINEAGE-LINKED
+1 CHAR UTF-8
+1 LANG English
+1 SOUR FamilyTreeView
+2 NAME FamilyTreeView Demo
+2 VERS 1.0.0
+1 DATE 21 JAN 2026
+1 FILE Example Family Tree with 10 People
+0 @I1@ INDI
+1 NAME John /Smith/
+2 GIVN John
+2 SURN Smith
+1 SEX M
+1 BIRT
+2 DATE 15 MAR 1940
+2 PLAC Boston, Massachusetts, USA
+1 DEAT Y
+2 DATE 22 NOV 2018
+2 PLAC Miami, Florida, USA
+2 CAUS Natural causes
+1 BURI
+2 PLAC Miami Memorial Cemetery, Florida, USA
+1 RESI
+2 DATE FROM 1965 TO 2018
+2 ADDR
+3 ADR1 142 Oak Street
+3 CITY Miami
+3 STAE Florida
+3 CTRY USA
+3 POST 33101
+1 OCCU Engineer
+2 DATE FROM 1962 TO 2005
+2 PLAC Boeing Corporation
+2 NOTE Aerospace engineer, worked on commercial aircraft design
+1 EDUC MIT
+2 DATE FROM SEP 1958 TO JUN 1962
+2 PLAC Cambridge, Massachusetts, USA
+2 NOTE Bachelor of Science in Mechanical Engineering
+1 RELI Protestant
+1 NATI American
+1 EVEN English
+2 TYPE Language spoken
+1 FAMS @F1@
+1 NOTE Founder of the Smith family line. Veteran of US Air Force. Passionate about aviation and model planes.
+0 @I2@ INDI
+1 NAME Mary Elizabeth /Smith/
+2 GIVN Mary Elizabeth
+2 SURN Johnson
+2 _MARNM Smith
+1 SEX F
+1 BIRT
+2 DATE 8 JUL 1943
+2 PLAC Philadelphia, Pennsylvania, USA
+1 DEAT Y
+2 DATE 5 APR 2020
+2 PLAC Miami, Florida, USA
+2 CAUS Heart failure
+1 RESI
+2 DATE FROM 1965 TO 2020
+2 ADDR
+3 ADR1 142 Oak Street
+3 CITY Miami
+3 STAE Florida
+3 CTRY USA
+3 POST 33101
+1 OCCU Teacher
+2 DATE FROM 1965 TO 2003
+2 PLAC Miami Public Schools
+2 NOTE High school English teacher for 38 years
+1 EDUC University of Pennsylvania
+2 DATE FROM SEP 1961 TO JUN 1965
+2 PLAC Philadelphia, Pennsylvania, USA
+2 NOTE Bachelor of Arts in English Literature
+1 RELI Protestant
+1 NATI American
+1 EVEN English, French
+2 TYPE Language spoken
+1 EVEN Reading, Gardening, Piano
+2 TYPE Hobbies
+1 FAMS @F1@
+1 NOTE Beloved teacher who inspired generations of students. Known for her beautiful garden and Sunday dinners.
+0 @I3@ INDI
+1 NAME Robert James /Brown/
+2 GIVN Robert James
+2 SURN Brown
+1 SEX M
+1 BIRT
+2 DATE 21 SEP 1938
+2 PLAC Chicago, Illinois, USA
+1 DEAT Y
+2 DATE 14 FEB 2015
+2 PLAC Seattle, Washington, USA
+2 CAUS Stroke
+1 RESI
+2 DATE FROM 1970 TO 2015
+2 ADDR
+3 ADR1 89 Pine Avenue
+3 CITY Seattle
+3 STAE Washington
+3 CTRY USA
+3 POST 98101
+1 OCCU Doctor
+2 DATE FROM 1968 TO 2008
+2 PLAC Seattle General Hospital
+2 NOTE Chief of Surgery for 15 years
+1 EDUC Harvard Medical School
+2 DATE FROM SEP 1960 TO JUN 1968
+2 PLAC Boston, Massachusetts, USA
+2 NOTE MD with specialization in General Surgery
+1 RELI Catholic
+1 NATI American
+1 EVEN English, Spanish
+2 TYPE Language spoken
+1 EVEN Golf, Sailing
+2 TYPE Hobbies
+1 FAMS @F2@
+1 NOTE Pioneering surgeon who performed over 5000 operations. Loved sailing on Puget Sound.
+0 @I4@ INDI
+1 NAME Patricia Ann /Brown/
+2 GIVN Patricia Ann
+2 SURN Davis
+2 _MARNM Brown
+1 SEX F
+1 BIRT
+2 DATE 3 DEC 1941
+2 PLAC Denver, Colorado, USA
+1 RESI
+2 DATE FROM 1970
+2 ADDR
+3 ADR1 89 Pine Avenue
+3 CITY Seattle
+3 STAE Washington
+3 CTRY USA
+3 POST 98101
+1 RESI
+2 EMAIL patricia.brown@email.com
+1 RESI
+2 PHON +1-206-555-0142
+1 OCCU Nurse
+2 DATE FROM 1963 TO 2006
+2 PLAC Seattle General Hospital
+2 NOTE Head Nurse in Pediatric Ward
+1 EDUC University of Colorado
+2 DATE FROM SEP 1959 TO JUN 1963
+2 PLAC Boulder, Colorado, USA
+2 NOTE Bachelor of Science in Nursing
+1 RELI Catholic
+1 NATI American
+1 EVEN English
+2 TYPE Language spoken
+1 EVEN Knitting, Cooking, Volunteering
+2 TYPE Hobbies
+1 FAMS @F2@
+1 NOTE Caring nurse who helped thousands of children. Still active in community volunteer work at age 84.
+0 @I5@ INDI
+1 NAME David Michael /Smith/
+2 GIVN David Michael
+2 SURN Smith
+1 SEX M
+1 BIRT
+2 DATE 12 JUN 1968
+2 PLAC Miami, Florida, USA
+1 RESI
+2 DATE FROM 1995
+2 ADDR
+3 ADR1 567 Maple Drive
+3 CITY San Francisco
+3 STAE California
+3 CTRY USA
+3 POST 94102
+1 RESI
+2 EMAIL david.smith@techcorp.com
+1 RESI
+2 PHON +1-415-555-0198
+1 OCCU Software Architect
+2 DATE FROM 1992
+2 PLAC Various Tech Companies, Silicon Valley
+2 NOTE Currently VP of Engineering at TechCorp
+1 EDUC Stanford University
+2 DATE FROM SEP 1986 TO JUN 1990
+2 PLAC Stanford, California, USA
+2 NOTE Bachelor of Science in Computer Science
+1 EDUC Stanford University
+2 DATE FROM SEP 1990 TO JUN 1992
+2 PLAC Stanford, California, USA
+2 NOTE Master of Science in Computer Science
+1 RELI Agnostic
+1 NATI American
+1 EVEN English, Japanese
+2 TYPE Language spoken
+1 EVEN Photography, Hiking, Chess
+2 TYPE Hobbies
+1 FAMS @F3@
+1 FAMC @F1@
+1 NOTE Tech industry veteran. Built several successful startups. Enjoys hiking in the Bay Area with family.
+0 @I6@ INDI
+1 NAME Emily Rose /Smith/
+2 GIVN Emily Rose
+2 SURN Brown
+2 _MARNM Smith
+1 SEX F
+1 BIRT
+2 DATE 28 FEB 1970
+2 PLAC Seattle, Washington, USA
+1 RESI
+2 DATE FROM 1995
+2 ADDR
+3 ADR1 567 Maple Drive
+3 CITY San Francisco
+3 STAE California
+3 CTRY USA
+3 POST 94102
+1 RESI
+2 EMAIL emily.smith@email.com
+1 RESI
+2 PHON +1-415-555-0199
+1 OCCU Pediatrician
+2 DATE FROM 1998
+2 PLAC San Francisco Children's Hospital
+2 NOTE Head of Pediatric Department
+1 EDUC University of Washington
+2 DATE FROM SEP 1988 TO JUN 1992
+2 PLAC Seattle, Washington, USA
+2 NOTE Bachelor of Science in Biology
+1 EDUC UCSF Medical School
+2 DATE FROM SEP 1992 TO JUN 1998
+2 PLAC San Francisco, California, USA
+2 NOTE MD with specialization in Pediatrics
+1 RELI Catholic
+1 NATI American
+1 EVEN English, Spanish
+2 TYPE Language spoken
+1 EVEN Yoga, Reading, Cooking
+2 TYPE Hobbies
+1 FAMS @F3@
+1 FAMC @F2@
+1 NOTE Following in her father's footsteps as a doctor. Known for her compassionate care of young patients.
+0 @I7@ INDI
+1 NAME James Robert /Brown/
+2 GIVN James Robert
+2 SURN Brown
+1 SEX M
+1 BIRT
+2 DATE 17 OCT 1972
+2 PLAC Seattle, Washington, USA
+1 RESI
+2 DATE FROM 2000
+2 ADDR
+3 ADR1 234 Harbor View
+3 CITY Seattle
+3 STAE Washington
+3 CTRY USA
+3 POST 98102
+1 RESI
+2 EMAIL james.brown@lawfirm.com
+1 RESI
+2 PHON +1-206-555-0187
+1 OCCU Attorney
+2 DATE FROM 2000
+2 PLAC Brown & Associates Law Firm
+2 NOTE Founding partner, specializing in environmental law
+1 EDUC Yale University
+2 DATE FROM SEP 1990 TO JUN 1994
+2 PLAC New Haven, Connecticut, USA
+2 NOTE Bachelor of Arts in Political Science
+1 EDUC Columbia Law School
+2 DATE FROM SEP 1994 TO JUN 1997
+2 PLAC New York, New York, USA
+2 NOTE Juris Doctor
+1 RELI Catholic
+1 NATI American
+1 EVEN English, French
+2 TYPE Language spoken
+1 EVEN Tennis, Wine collecting, Travel
+2 TYPE Hobbies
+1 FAMS @F4@
+1 FAMC @F2@
+1 NOTE Environmental law advocate. Has won several landmark cases protecting Pacific Northwest forests.
+0 @I8@ INDI
+1 NAME Michael David /Smith/
+2 GIVN Michael David
+2 SURN Smith
+1 SEX M
+1 BIRT
+2 DATE 5 AUG 1998
+2 PLAC San Francisco, California, USA
+1 RESI
+2 ADDR
+3 ADR1 1200 University Ave, Apt 4B
+3 CITY Palo Alto
+3 STAE California
+3 CTRY USA
+3 POST 94301
+1 RESI
+2 EMAIL michael.smith@university.edu
+1 RESI
+2 PHON +1-650-555-0156
+1 OCCU PhD Student
+2 DATE FROM 2024
+2 PLAC Stanford University
+2 NOTE Researching machine learning applications in healthcare
+1 EDUC UC Berkeley
+2 DATE FROM SEP 2016 TO JUN 2020
+2 PLAC Berkeley, California, USA
+2 NOTE Bachelor of Science in Computer Science
+1 EDUC Stanford University
+2 DATE FROM SEP 2020 TO JUN 2022
+2 PLAC Stanford, California, USA
+2 NOTE Master of Science in Artificial Intelligence
+1 RELI Agnostic
+1 NATI American
+1 EVEN English, Mandarin, Python
+2 TYPE Language spoken
+1 EVEN Video games, Rock climbing, Piano
+2 TYPE Hobbies
+1 FAMC @F3@
+1 NOTE Aspiring AI researcher. Wants to use technology to improve healthcare outcomes worldwide.
+0 @I9@ INDI
+1 NAME Sarah Elizabeth /Smith/
+2 GIVN Sarah Elizabeth
+2 SURN Smith
+1 SEX F
+1 BIRT
+2 DATE 14 MAY 2001
+2 PLAC San Francisco, California, USA
+1 RESI
+2 ADDR
+3 ADR1 567 Maple Drive
+3 CITY San Francisco
+3 STAE California
+3 CTRY USA
+3 POST 94102
+1 RESI
+2 EMAIL sarah.smith@email.com
+1 RESI
+2 PHON +1-415-555-0167
+1 OCCU Medical Student
+2 DATE FROM 2023
+2 PLAC UCSF Medical School
+2 NOTE Following family tradition in medicine
+1 EDUC UCLA
+2 DATE FROM SEP 2019 TO JUN 2023
+2 PLAC Los Angeles, California, USA
+2 NOTE Bachelor of Science in Biochemistry, Summa Cum Laude
+1 RELI Catholic
+1 NATI American
+1 EVEN English, Spanish
+2 TYPE Language spoken
+1 EVEN Surfing, Photography, Volunteering
+2 TYPE Hobbies
+1 FAMC @F3@
+1 NOTE Third generation to pursue medicine. Active volunteer at free clinics. Dreams of working with Doctors Without Borders.
+0 @I10@ INDI
+1 NAME Thomas James /Brown/
+2 GIVN Thomas James
+2 SURN Brown
+1 SEX M
+1 BIRT
+2 DATE 9 NOV 2005
+2 PLAC Seattle, Washington, USA
+1 RESI
+2 ADDR
+3 ADR1 234 Harbor View
+3 CITY Seattle
+3 STAE Washington
+3 CTRY USA
+3 POST 98102
+1 RESI
+2 EMAIL thomas.brown@email.com
+1 OCCU High School Student
+2 DATE FROM 2019
+2 PLAC Seattle Academy of Arts and Sciences
+2 NOTE Junior year, interested in environmental science
+1 EDUC Seattle Academy of Arts and Sciences
+2 DATE FROM SEP 2019
+2 PLAC Seattle, Washington, USA
+2 NOTE High School - Expected graduation 2024
+1 RELI Catholic
+1 NATI American
+1 EVEN English
+2 TYPE Language spoken
+1 EVEN Basketball, Gaming, Environmental activism
+2 TYPE Hobbies
+1 FAMC @F4@
+1 NOTE Active in school environmental club. Organizes beach cleanup events. Wants to study environmental law like his father.
+0 @F1@ FAM
+1 HUSB @I1@
+1 WIFE @I2@
+1 CHIL @I5@
+1 MARR
+2 DATE 18 JUN 1965
+2 PLAC Philadelphia, Pennsylvania, USA
+0 @F2@ FAM
+1 HUSB @I3@
+1 WIFE @I4@
+1 CHIL @I6@
+1 CHIL @I7@
+1 MARR
+2 DATE 25 AUG 1968
+2 PLAC Denver, Colorado, USA
+0 @F3@ FAM
+1 HUSB @I5@
+1 WIFE @I6@
+1 CHIL @I8@
+1 CHIL @I9@
+1 MARR
+2 DATE 10 SEP 1995
+2 PLAC San Francisco, California, USA
+0 @F4@ FAM
+1 HUSB @I7@
+1 CHIL @I10@
+0 TRLR

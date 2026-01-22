@@ -1,8 +1,10 @@
+import { useTranslation } from 'react-i18next'
 import { useStore, selectFocusedPerson } from '../../store'
 import { getDisplayName, getLifeSpan } from '../../types/individual'
 import { Button } from '../ui/Button'
 
 export function PersonInfo() {
+  const { t } = useTranslation()
   const person = useStore(selectFocusedPerson)
   const { centerOnNode } = useStore((state) => state.viewport)
   const gedcomData = useStore((state) => state.gedcom.data)
@@ -25,7 +27,7 @@ export function PersonInfo() {
           />
         </svg>
         <p className="font-body text-body text-text-muted">
-          Select a person to view their details
+          {t('personInfo.selectPerson')}
         </p>
       </div>
     )
@@ -43,6 +45,14 @@ export function PersonInfo() {
   const handlePersonClick = (personId: string) => {
     setFocusedPerson(personId)
     centerOnNode(personId)
+  }
+
+  const getGenderLabel = (gender: string) => {
+    switch (gender) {
+      case 'M': return t('personInfo.male')
+      case 'F': return t('personInfo.female')
+      default: return t('personInfo.unknown')
+    }
   }
 
   return (
@@ -73,15 +83,15 @@ export function PersonInfo() {
           {getLifeSpan(person)}
         </p>
         <p className="font-body text-small text-text-muted">
-          {person.gender === 'M' ? 'Male' : person.gender === 'F' ? 'Female' : 'Unknown'} • ID: {person.id}
+          {getGenderLabel(person.gender)} • ID: {person.id}
         </p>
       </div>
 
       {/* Birth */}
       {person.birth && (person.birth.date || person.birth.place) && (
         <section>
-          <h3 className="mb-2 font-body text-h3 text-text-primary">Birth</h3>
-          <div className="rounded-lg bg-white p-3">
+          <h3 className="mb-2 font-body text-h3 text-text-primary">{t('personInfo.birth')}</h3>
+          <div className="rounded-lg bg-white p-3 dark:bg-bg-canvas">
             {person.birth.date && (
               <p className="font-body text-body text-text-primary">{person.birth.date}</p>
             )}
@@ -95,8 +105,8 @@ export function PersonInfo() {
       {/* Death */}
       {person.isDeceased && (
         <section>
-          <h3 className="mb-2 font-body text-h3 text-text-primary">Death</h3>
-          <div className="rounded-lg bg-white p-3">
+          <h3 className="mb-2 font-body text-h3 text-text-primary">{t('personInfo.death')}</h3>
+          <div className="rounded-lg bg-white p-3 dark:bg-bg-canvas">
             {person.death?.date ? (
               <>
                 <p className="font-body text-body text-text-primary">{person.death.date}</p>
@@ -105,7 +115,7 @@ export function PersonInfo() {
                 )}
               </>
             ) : (
-              <p className="font-body text-body text-text-muted">Date unknown</p>
+              <p className="font-body text-body text-text-muted">{t('personInfo.dateUnknown')}</p>
             )}
           </div>
         </section>
@@ -114,10 +124,10 @@ export function PersonInfo() {
       {/* Occupation */}
       {person.occupation && person.occupation.length > 0 && (
         <section>
-          <h3 className="mb-2 font-body text-h3 text-text-primary">Occupation</h3>
+          <h3 className="mb-2 font-body text-h3 text-text-primary">{t('personInfo.occupation')}</h3>
           <div className="space-y-2">
             {person.occupation.map((occ, i) => (
-              <div key={i} className="rounded-lg bg-white p-3">
+              <div key={i} className="rounded-lg bg-white p-3 dark:bg-bg-canvas">
                 <p className="font-body text-body text-text-primary">{occ.value}</p>
                 {occ.date && (
                   <p className="font-body text-small text-text-secondary">{occ.date}</p>
@@ -131,10 +141,10 @@ export function PersonInfo() {
       {/* Education */}
       {person.education && person.education.length > 0 && (
         <section>
-          <h3 className="mb-2 font-body text-h3 text-text-primary">Education</h3>
+          <h3 className="mb-2 font-body text-h3 text-text-primary">{t('personInfo.education')}</h3>
           <div className="space-y-2">
             {person.education.map((edu, i) => (
-              <div key={i} className="rounded-lg bg-white p-3">
+              <div key={i} className="rounded-lg bg-white p-3 dark:bg-bg-canvas">
                 <p className="font-body text-body text-text-primary">{edu.value}</p>
                 {edu.date && (
                   <p className="font-body text-small text-text-secondary">{edu.date}</p>
@@ -151,8 +161,8 @@ export function PersonInfo() {
       {/* Contact Info */}
       {(person.email || person.phone || person.residence?.address) && (
         <section>
-          <h3 className="mb-2 font-body text-h3 text-text-primary">Contact</h3>
-          <div className="rounded-lg bg-white p-3 space-y-1">
+          <h3 className="mb-2 font-body text-h3 text-text-primary">{t('personInfo.contact')}</h3>
+          <div className="rounded-lg bg-white p-3 space-y-1 dark:bg-bg-canvas">
             {person.email && (
               <p className="font-body text-small text-text-primary">{person.email}</p>
             )}
@@ -176,16 +186,16 @@ export function PersonInfo() {
       {/* Religion & Nationality */}
       {(person.religion || person.nationality) && (
         <section>
-          <h3 className="mb-2 font-body text-h3 text-text-primary">Details</h3>
-          <div className="rounded-lg bg-white p-3 space-y-1">
+          <h3 className="mb-2 font-body text-h3 text-text-primary">{t('personInfo.details')}</h3>
+          <div className="rounded-lg bg-white p-3 space-y-1 dark:bg-bg-canvas">
             {person.religion && (
               <p className="font-body text-small text-text-primary">
-                <span className="text-text-muted">Religion:</span> {person.religion}
+                <span className="text-text-muted">{t('personInfo.religion')}:</span> {person.religion}
               </p>
             )}
             {person.nationality && (
               <p className="font-body text-small text-text-primary">
-                <span className="text-text-muted">Nationality:</span> {person.nationality}
+                <span className="text-text-muted">{t('personInfo.nationality')}:</span> {person.nationality}
               </p>
             )}
           </div>
@@ -195,10 +205,10 @@ export function PersonInfo() {
       {/* Custom Events (Hobbies, Languages, etc.) */}
       {person.events && person.events.length > 0 && (
         <section>
-          <h3 className="mb-2 font-body text-h3 text-text-primary">Interests</h3>
+          <h3 className="mb-2 font-body text-h3 text-text-primary">{t('personInfo.interests')}</h3>
           <div className="space-y-2">
             {person.events.map((event, i) => (
-              <div key={i} className="rounded-lg bg-white p-3">
+              <div key={i} className="rounded-lg bg-white p-3 dark:bg-bg-canvas">
                 <p className="font-body text-small text-text-muted">{event.type}</p>
                 <p className="font-body text-body text-text-primary">{event.value}</p>
               </div>
@@ -210,8 +220,8 @@ export function PersonInfo() {
       {/* Notes */}
       {person.notes && person.notes.length > 0 && (
         <section>
-          <h3 className="mb-2 font-body text-h3 text-text-primary">Notes</h3>
-          <div className="rounded-lg bg-white p-3">
+          <h3 className="mb-2 font-body text-h3 text-text-primary">{t('personInfo.notes')}</h3>
+          <div className="rounded-lg bg-white p-3 dark:bg-bg-canvas">
             <p className="font-body text-small text-text-secondary whitespace-pre-wrap">
               {person.notes[0].replace(/<[^>]*>/g, '')}
             </p>
@@ -222,28 +232,28 @@ export function PersonInfo() {
       {/* Parents */}
       {parentFamily && (
         <section>
-          <h3 className="mb-2 font-body text-h3 text-text-primary">Parents</h3>
+          <h3 className="mb-2 font-body text-h3 text-text-primary">{t('personInfo.parents')}</h3>
           <div className="space-y-2">
             {parentFamily.husband && (
               <button
                 onClick={() => handlePersonClick(parentFamily.husband!)}
-                className="w-full rounded-lg bg-white p-3 text-left hover:bg-bg-aged transition-colors"
+                className="w-full rounded-lg bg-white p-3 text-start hover:bg-bg-aged transition-colors dark:bg-bg-canvas"
               >
                 <p className="font-body text-body text-text-primary">
-                  {gedcomData?.individuals.get(parentFamily.husband)?.name.full || 'Unknown'}
+                  {gedcomData?.individuals.get(parentFamily.husband)?.name.full || t('personInfo.unknown')}
                 </p>
-                <p className="font-body text-small text-text-muted">Father</p>
+                <p className="font-body text-small text-text-muted">{t('personInfo.father')}</p>
               </button>
             )}
             {parentFamily.wife && (
               <button
                 onClick={() => handlePersonClick(parentFamily.wife!)}
-                className="w-full rounded-lg bg-white p-3 text-left hover:bg-bg-aged transition-colors"
+                className="w-full rounded-lg bg-white p-3 text-start hover:bg-bg-aged transition-colors dark:bg-bg-canvas"
               >
                 <p className="font-body text-body text-text-primary">
-                  {gedcomData?.individuals.get(parentFamily.wife)?.name.full || 'Unknown'}
+                  {gedcomData?.individuals.get(parentFamily.wife)?.name.full || t('personInfo.unknown')}
                 </p>
-                <p className="font-body text-small text-text-muted">Mother</p>
+                <p className="font-body text-small text-text-muted">{t('personInfo.mother')}</p>
               </button>
             )}
           </div>
@@ -259,7 +269,7 @@ export function PersonInfo() {
         return (
           <section key={family.id}>
             <h3 className="mb-2 font-body text-h3 text-text-primary">
-              Family {families.length > 1 ? familyIndex + 1 : ''}
+              {t('personInfo.family')} {families.length > 1 ? familyIndex + 1 : ''}
             </h3>
 
             {/* Spouse */}
@@ -267,11 +277,11 @@ export function PersonInfo() {
               <div className="mb-2">
                 <button
                   onClick={() => handlePersonClick(spouse.id)}
-                  className="w-full rounded-lg bg-white p-3 text-left hover:bg-bg-aged transition-colors"
+                  className="w-full rounded-lg bg-white p-3 text-start hover:bg-bg-aged transition-colors dark:bg-bg-canvas"
                 >
                   <p className="font-body text-body text-text-primary">{spouse.name.full}</p>
                   <p className="font-body text-small text-text-muted">
-                    Spouse{family.marriage?.date ? ` • Married ${family.marriage.date}` : ''}
+                    {t('personInfo.spouse')}{family.marriage?.date ? ` • ${t('personInfo.married')} ${family.marriage.date}` : ''}
                   </p>
                 </button>
               </div>
@@ -287,10 +297,10 @@ export function PersonInfo() {
                     <button
                       key={childId}
                       onClick={() => handlePersonClick(childId)}
-                      className="w-full rounded-lg bg-white p-3 text-left hover:bg-bg-aged transition-colors"
+                      className="w-full rounded-lg bg-white p-3 text-start hover:bg-bg-aged transition-colors dark:bg-bg-canvas"
                     >
                       <p className="font-body text-body text-text-primary">{child.name.full}</p>
-                      <p className="font-body text-small text-text-muted">Child</p>
+                      <p className="font-body text-small text-text-muted">{t('personInfo.child')}</p>
                     </button>
                   )
                 })}
@@ -307,7 +317,7 @@ export function PersonInfo() {
           variant="secondary"
           className="w-full"
         >
-          <svg className="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="h-4 w-4 me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -315,7 +325,7 @@ export function PersonInfo() {
               d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
             />
           </svg>
-          Center on person
+          {t('personInfo.centerOnPerson')}
         </Button>
       </div>
     </div>

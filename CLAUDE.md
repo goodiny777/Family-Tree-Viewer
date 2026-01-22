@@ -29,6 +29,7 @@
 | Layout | d3-hierarchy + d3-shape |
 | GEDCOM | parse-gedcom |
 | Export | html2canvas + jspdf |
+| i18n | i18next + react-i18next |
 | Testing | Vitest |
 
 ## Architecture Decisions
@@ -115,9 +116,61 @@ src/
 │   └── export/          # PNG/PDF/SVG export
 ├── store/               # Zustand state management
 ├── hooks/               # Custom React hooks
+├── i18n/                # Internationalization
+│   ├── index.ts         # i18next configuration
+│   └── locales/         # Translation JSON files (en, ru, he, es)
 ├── utils/               # Helpers (dates, geometry, colors)
 └── types/               # TypeScript definitions
 ```
+
+## Internationalization (i18n)
+
+**Supported Languages:**
+| Code | Language | Direction |
+|------|----------|-----------|
+| `en` | English | LTR |
+| `ru` | Russian (Русский) | LTR |
+| `he` | Hebrew (עברית) | RTL |
+| `es` | Spanish (Español) | LTR |
+
+**Implementation:**
+- Uses `i18next` and `react-i18next`
+- Translation files in `src/i18n/locales/*.json`
+- Language setting persisted to localStorage
+- RTL support via Tailwind's logical properties (`start`/`end`)
+- Document direction (`dir` attribute) set automatically
+
+**Adding New Translations:**
+1. Create `src/i18n/locales/{code}.json` based on `en.json`
+2. Add language to `supportedLanguages` array in `src/i18n/index.ts`
+3. Import and register in i18n resources
+
+## Settings & Persistence
+
+**Storage:** `localStorage` key `familytree-storage` (via Zustand persist middleware)
+
+**Available Settings:**
+
+| Setting | Type | Default | Description |
+|---------|------|---------|-------------|
+| `nodeSize` | `compact` \| `standard` \| `detailed` | `standard` | Person card detail level |
+| `connectionStyle` | `curved` \| `straight` \| `orthogonal` | `curved` | Line style between nodes |
+| `showDates` | boolean | `true` | Display birth/death dates |
+| `showPlaces` | boolean | `true` | Display locations |
+| `showPhotos` | boolean | `true` | Display person photos |
+| `showIds` | boolean | `false` | Display GEDCOM IDs |
+| `theme` | `light` \| `dark` \| `system` | `light` | Color theme |
+| `viewMode` | `all` \| `family` \| `hourglass` \| `pedigree` | `all` | Tree filtering mode |
+| `generationDepth` | number | `10` | Max generations to display |
+| `generationFilterEnabled` | boolean | `false` | Enable generation limit |
+| `enableAnimations` | boolean | `true` | Smooth transitions |
+| `language` | string | `en` | UI language code |
+
+**Initialization Hook (`useInitialization`):**
+- Applied on app start in `App.tsx`
+- Syncs theme to DOM (`.dark` class on `<html>`)
+- Listens for system theme changes when `theme: 'system'`
+- Sets document `dir` and `lang` attributes for i18n
 
 ## Performance Targets
 

@@ -1,9 +1,11 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useStore } from '../../store'
 import { Input } from '../ui/Input'
 import type { Individual } from '../../types'
 
 export function SearchOverlay() {
+  const { t } = useTranslation()
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<Individual[]>([])
   const [selectedIndex, setSelectedIndex] = useState(0)
@@ -61,6 +63,15 @@ export function SearchOverlay() {
     setSelectedIndex(0)
   }, [query, gedcomData])
 
+  const handleSelect = useCallback(
+    (person: Individual) => {
+      setFocusedPerson(person.id)
+      centerOnNode(person.id)
+      setSearchOpen(false)
+    },
+    [setFocusedPerson, centerOnNode, setSearchOpen]
+  )
+
   // Handle keyboard navigation
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
@@ -85,16 +96,7 @@ export function SearchOverlay() {
           break
       }
     },
-    [results, selectedIndex, setSearchOpen]
-  )
-
-  const handleSelect = useCallback(
-    (person: Individual) => {
-      setFocusedPerson(person.id)
-      centerOnNode(person.id)
-      setSearchOpen(false)
-    },
-    [setFocusedPerson, centerOnNode, setSearchOpen]
+    [results, selectedIndex, setSearchOpen, handleSelect]
   )
 
   const handleBackdropClick = useCallback(
@@ -111,13 +113,13 @@ export function SearchOverlay() {
       className="fixed inset-0 z-50 flex items-start justify-center bg-black/30 pt-20 backdrop-blur-sm animate-fade-in"
       onClick={handleBackdropClick}
     >
-      <div className="w-full max-w-xl rounded-lg bg-white shadow-panel animate-zoom">
+      <div className="w-full max-w-xl rounded-lg bg-white shadow-panel animate-zoom dark:bg-bg-canvas">
         {/* Search input */}
         <div className="p-4">
           <Input
             ref={inputRef}
             type="text"
-            placeholder="Search by name or ID..."
+            placeholder={t('search.placeholder')}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
@@ -142,14 +144,14 @@ export function SearchOverlay() {
                 <button
                   onClick={() => handleSelect(person)}
                   onMouseEnter={() => setSelectedIndex(index)}
-                  className={`w-full px-4 py-3 text-left transition-colors ${
+                  className={`w-full px-4 py-3 text-start transition-colors ${
                     index === selectedIndex ? 'bg-bg-panel' : 'hover:bg-bg-panel/50'
                   }`}
                 >
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="font-body text-body font-medium text-text-primary">
-                        {person.name.full || 'Unknown'}
+                        {person.name.full || t('personInfo.unknown')}
                       </p>
                       <p className="font-body text-small text-text-muted">
                         {person.birth?.date || ''}{' '}
@@ -160,8 +162,8 @@ export function SearchOverlay() {
                           : ''}
                       </p>
                     </div>
-                    <div className="text-right">
-                      <span className="font-body text-small text-text-muted">ID: {person.id}</span>
+                    <div className="text-end">
+                      <span className="font-body text-small text-text-muted">{t('search.id')}: {person.id}</span>
                       <div className="flex items-center gap-1 text-text-muted">
                         <span className="text-sm">
                           {person.gender === 'M' ? '♂' : person.gender === 'F' ? '♀' : '?'}
@@ -178,7 +180,7 @@ export function SearchOverlay() {
         {/* No results */}
         {query.trim() && results.length === 0 && (
           <div className="border-t border-bg-aged p-8 text-center">
-            <p className="font-body text-body text-text-muted">No results found</p>
+            <p className="font-body text-body text-text-muted">{t('search.noResults')}</p>
           </div>
         )}
 
@@ -186,14 +188,14 @@ export function SearchOverlay() {
         <div className="flex items-center justify-between border-t border-bg-aged px-4 py-2">
           <div className="flex gap-4">
             <span className="font-body text-small text-text-muted">
-              <kbd className="rounded bg-bg-aged px-1.5 py-0.5">↑↓</kbd> Navigate
+              <kbd className="rounded bg-bg-aged px-1.5 py-0.5">↑↓</kbd> {t('search.navigate')}
             </span>
             <span className="font-body text-small text-text-muted">
-              <kbd className="rounded bg-bg-aged px-1.5 py-0.5">Enter</kbd> Select
+              <kbd className="rounded bg-bg-aged px-1.5 py-0.5">Enter</kbd> {t('search.select')}
             </span>
           </div>
           <span className="font-body text-small text-text-muted">
-            <kbd className="rounded bg-bg-aged px-1.5 py-0.5">Esc</kbd> Close
+            <kbd className="rounded bg-bg-aged px-1.5 py-0.5">Esc</kbd> {t('search.close')}
           </span>
         </div>
       </div>

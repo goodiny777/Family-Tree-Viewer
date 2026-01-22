@@ -1,7 +1,9 @@
+import { useTranslation } from 'react-i18next'
 import { useStore } from '../../store'
 import { Slider } from '../ui/Slider'
 
 export function ZoomControls() {
+  const { t } = useTranslation()
   const { viewport, zoom, fitToScreen } = useStore((state) => state.viewport)
 
   const handleZoomChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,7 +27,7 @@ export function ZoomControls() {
         <button
           onClick={handleZoomOut}
           className="btn-icon h-8 w-8 flex items-center justify-center rounded bg-bg-aged hover:bg-accent/20"
-          aria-label="Zoom out"
+          aria-label={t('zoom.zoomOut')}
         >
           <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
@@ -40,13 +42,13 @@ export function ZoomControls() {
           onChange={handleZoomChange}
           showValue={false}
           className="flex-1"
-          aria-label="Zoom level"
+          aria-label={t('zoom.zoomIn')}
         />
 
         <button
           onClick={handleZoomIn}
           className="btn-icon h-8 w-8 flex items-center justify-center rounded bg-bg-aged hover:bg-accent/20"
-          aria-label="Zoom in"
+          aria-label={t('zoom.zoomIn')}
         >
           <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -72,7 +74,7 @@ export function ZoomControls() {
             d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
           />
         </svg>
-        Fit to screen
+        {t('zoom.fitToScreen')}
       </button>
     </div>
   )

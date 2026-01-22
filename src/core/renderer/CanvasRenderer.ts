@@ -129,17 +129,17 @@ export class CanvasRenderer {
       // Positive levels (descendants) get warmer orange tints
       const absLevel = Math.abs(band.level)
       let color: string
-
+      const intensity = 0.2
       if (band.level === 0) {
-        // Focused level - light golden/amber tint
-        color = 'rgba(244, 168, 37, 0.06)'
+        // Focused level - very subtle golden/amber tint
+        color = `rgba(244, 168, 37, ${intensity})`
       } else if (band.level < 0) {
-        // Ancestors (above) - blue tints, getting darker further up
-        const intensity = Math.min(absLevel * 0.03, 0.15)
+        // Ancestors (above) - subtle blue tints, getting slightly darker further up
+        const intensity = Math.min(absLevel * 0.08, 0.5)
         color = `rgba(100, 140, 180, ${intensity})`
       } else {
         // Descendants (below) - warm orange tints, getting darker further down
-        const intensity = Math.min(absLevel * 0.03, 0.15)
+        const intensity = Math.min(absLevel * 0.05, 0.5)
         color = `rgba(180, 140, 100, ${intensity})`
       }
 
@@ -148,7 +148,7 @@ export class CanvasRenderer {
       this.ctx.fillRect(bandMinX, band.minY, bandMaxX - bandMinX, band.maxY - band.minY)
 
       // Draw subtle separator line at bottom of band
-      this.ctx.strokeStyle = 'rgba(139, 115, 85, 0.15)'
+      this.ctx.strokeStyle = 'rgba(139, 115, 85, 0.2)'
       this.ctx.lineWidth = 1
       this.ctx.beginPath()
       this.ctx.moveTo(bandMinX, band.maxY)
@@ -211,14 +211,15 @@ export class CanvasRenderer {
   }
 
   /**
-   * Render connection lines with organic branch-like curves
+   * Render connection lines based on connectionStyle setting
    */
   private renderConnections(
     connections: Connection[],
     selection: SelectionState,
-    _settings: AppSettings
+    settings: AppSettings
   ) {
     const focusedId = selection.focusedPersonId
+    const connectionStyle = settings.connectionStyle
 
     for (const connection of connections) {
       // Check if this connection is connected to the focused person
@@ -233,21 +234,31 @@ export class CanvasRenderer {
 
       this.ctx.beginPath()
 
-      // Draw bezier curve for smooth organic lines
-      if (connection.path.controlPoint1 && connection.path.controlPoint2) {
-        this.ctx.moveTo(connection.path.startX, connection.path.startY)
+      const { startX, startY, endX, endY, controlPoint1, controlPoint2 } = connection.path
+
+      // Draw based on connection style
+      if (connectionStyle === 'curved' && controlPoint1 && controlPoint2) {
+        // Bezier curve for smooth organic lines
+        this.ctx.moveTo(startX, startY)
         this.ctx.bezierCurveTo(
-          connection.path.controlPoint1.x,
-          connection.path.controlPoint1.y,
-          connection.path.controlPoint2.x,
-          connection.path.controlPoint2.y,
-          connection.path.endX,
-          connection.path.endY
+          controlPoint1.x,
+          controlPoint1.y,
+          controlPoint2.x,
+          controlPoint2.y,
+          endX,
+          endY
         )
+      } else if (connectionStyle === 'orthogonal' && connection.type === 'parent-child') {
+        // Orthogonal (right-angle) lines
+        const midY = (startY + endY) / 2
+        this.ctx.moveTo(startX, startY)
+        this.ctx.lineTo(startX, midY)
+        this.ctx.lineTo(endX, midY)
+        this.ctx.lineTo(endX, endY)
       } else {
-        // Straight line for spouse connections
-        this.ctx.moveTo(connection.path.startX, connection.path.startY)
-        this.ctx.lineTo(connection.path.endX, connection.path.endY)
+        // Straight line (default for spouse connections or when style is 'straight')
+        this.ctx.moveTo(startX, startY)
+        this.ctx.lineTo(endX, endY)
       }
 
       // Style based on connection type and highlight state
@@ -309,8 +320,8 @@ export class CanvasRenderer {
       this.ctx.shadowOffsetY = 3
     }
 
-    // Draw the person icon as the full tile
-    this.drawPersonIcon(x, y, radius, person.gender, isFocused)
+    // Draw the person icon as the full tile (or simple circle if showPhotos is disabled)
+    this.drawPersonIcon(x, y, radius, person.gender, person.isDeceased, isFocused, settings.showPhotos)
 
     // Reset shadow
     this.ctx.shadowColor = 'transparent'
@@ -334,13 +345,23 @@ export class CanvasRenderer {
     // Standard and Full LOD: show name label below
     if (lod === 'standard' || lod === 'full') {
       const name = this.getDisplayName(person, settings)
-      const labelY = y + radius + 12
+      let labelY = y + radius + 12
+      let currentOffset = 0
 
       this.ctx.font = '500 11px "Source Sans 3", sans-serif'
       this.ctx.fillStyle = '#2D3B2A'
       this.ctx.textAlign = 'center'
       this.ctx.textBaseline = 'top'
       this.ctx.fillText(this.truncateText(name, radius * 3), x, labelY)
+      currentOffset += 14
+
+      // Show ID if enabled
+      if (settings.showIds) {
+        this.ctx.font = '9px "Source Sans 3", sans-serif'
+        this.ctx.fillStyle = '#8B7355'
+        this.ctx.fillText(person.id, x, labelY + currentOffset)
+        currentOffset += 11
+      }
 
       // Full LOD: show birth year
       if (lod === 'full' && settings.showDates && person.birth?.date) {
@@ -348,8 +369,17 @@ export class CanvasRenderer {
         if (year) {
           this.ctx.font = '10px "Source Sans 3", sans-serif'
           this.ctx.fillStyle = '#6B5344'
-          this.ctx.fillText(year, x, labelY + 14)
+          this.ctx.fillText(year, x, labelY + currentOffset)
+          currentOffset += 12
         }
+      }
+
+      // Full LOD: show birth place if enabled
+      if (lod === 'full' && settings.showPlaces && person.birth?.place) {
+        const place = this.truncateText(person.birth.place, radius * 2.5)
+        this.ctx.font = '9px "Source Sans 3", sans-serif'
+        this.ctx.fillStyle = '#8B7355'
+        this.ctx.fillText(place, x, labelY + currentOffset)
       }
     }
   }
@@ -357,11 +387,19 @@ export class CanvasRenderer {
   /**
    * Draw person icon as the full tile
    */
-  private drawPersonIcon(x: number, y: number, radius: number, gender: 'M' | 'F' | 'U', isFocused: boolean = false) {
+  private drawPersonIcon(
+    x: number,
+    y: number,
+    radius: number,
+    gender: 'M' | 'F' | 'U',
+    isDeceased: boolean,
+    isFocused: boolean = false,
+    showPhotos: boolean = true
+  ) {
     // Select the appropriate icon based on gender
     const icon = gender === 'F' ? this.femaleIcon : this.maleIcon
 
-    if (icon && this.iconsLoaded) {
+    if (showPhotos && icon && this.iconsLoaded) {
       // Draw the image centered at (x, y) - size is diameter + 50%
       const iconSize = radius * 3
       this.ctx.drawImage(
@@ -372,8 +410,8 @@ export class CanvasRenderer {
         iconSize
       )
     } else {
-      // Fallback: draw colored circle with silhouette if images not loaded
-      const colors = this.getNodeColors(gender, false, isFocused)
+      // Draw colored circle with silhouette (when showPhotos is off or images not loaded)
+      const colors = this.getNodeColors(gender, isDeceased, isFocused)
 
       // Draw circle background
       this.ctx.beginPath()

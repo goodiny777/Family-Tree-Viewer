@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useStore } from '../../store'
 import { Button } from '../ui/Button'
 import { Tabs, TabsList, Tab } from '../ui/Tabs'
@@ -10,6 +11,7 @@ type ExportFormat = 'png' | 'pdf' | 'svg'
 type ExportScope = 'visible' | 'full' | 'selection'
 
 export function ExportDialog() {
+  const { t } = useTranslation()
   const [format, setFormat] = useState<ExportFormat>('png')
   const [scope, setScope] = useState<ExportScope>('visible')
   const [generationDepth, setGenerationDepth] = useState(5)
@@ -71,14 +73,14 @@ export function ExportDialog() {
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm animate-fade-in"
       onClick={handleBackdropClick}
     >
-      <div className="w-full max-w-md rounded-lg bg-white shadow-panel animate-zoom">
+      <div className="w-full max-w-md rounded-lg bg-white shadow-panel animate-zoom dark:bg-bg-canvas">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-bg-aged px-4 py-3">
-          <h2 className="font-display text-h2 text-text-primary">Export Dialog</h2>
+          <h2 className="font-display text-h2 text-text-primary">{t('export.title')}</h2>
           <button
             onClick={() => setExportDialogOpen(false)}
             className="rounded-lg p-1 hover:bg-bg-panel transition-colors"
-            aria-label="Close"
+            aria-label={t('search.close')}
           >
             <svg className="h-5 w-5 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -99,7 +101,7 @@ export function ExportDialog() {
 
           {/* Scope */}
           <section>
-            <h3 className="mb-3 font-body text-h3 text-text-primary">Scope</h3>
+            <h3 className="mb-3 font-body text-h3 text-text-primary">{t('export.scope')}</h3>
             <div className="space-y-2">
               <label className="flex items-center gap-3">
                 <input
@@ -110,7 +112,7 @@ export function ExportDialog() {
                   onChange={() => setScope('visible')}
                   className="h-4 w-4 text-primary focus:ring-primary"
                 />
-                <span className="font-body text-body text-text-primary">Visible area</span>
+                <span className="font-body text-body text-text-primary">{t('export.visibleArea')}</span>
               </label>
               <label className="flex items-center gap-3">
                 <input
@@ -121,7 +123,7 @@ export function ExportDialog() {
                   onChange={() => setScope('full')}
                   className="h-4 w-4 text-primary focus:ring-primary"
                 />
-                <span className="font-body text-body text-text-primary">Full tree</span>
+                <span className="font-body text-body text-text-primary">{t('export.fullTree')}</span>
               </label>
               <label className="flex items-center gap-3">
                 <input
@@ -132,7 +134,7 @@ export function ExportDialog() {
                   onChange={() => setScope('selection')}
                   className="h-4 w-4 text-primary focus:ring-primary"
                 />
-                <span className="font-body text-body text-text-primary">Current selection</span>
+                <span className="font-body text-body text-text-primary">{t('export.currentSelection')}</span>
               </label>
             </div>
           </section>
@@ -141,13 +143,13 @@ export function ExportDialog() {
           {scope === 'selection' && (
             <section>
               <Slider
-                label="Generation depth"
+                label={t('export.generationDepth')}
                 value={generationDepth}
                 min={1}
                 max={10}
                 step={1}
                 onChange={(e) => setGenerationDepth(parseInt(e.target.value))}
-                formatValue={(v) => `${v} generations`}
+                formatValue={(v) => `${v} ${t('export.generations')}`}
               />
             </section>
           )}
@@ -156,17 +158,17 @@ export function ExportDialog() {
           <section>
             <div className="space-y-3">
               <Toggle
-                label="Include photos"
+                label={t('export.includePhotos')}
                 checked={includePhotos}
                 onChange={(e) => setIncludePhotos(e.target.checked)}
               />
               <Toggle
-                label="Include population"
+                label={t('export.includePopulation')}
                 checked={includePopulation}
                 onChange={(e) => setIncludePopulation(e.target.checked)}
               />
               <Toggle
-                label="Include current selection"
+                label={t('export.includeCurrentSelection')}
                 checked={includeSelection}
                 onChange={(e) => setIncludeSelection(e.target.checked)}
               />
@@ -176,7 +178,7 @@ export function ExportDialog() {
           {/* File size estimate */}
           <div className="rounded-lg bg-bg-panel p-3">
             <p className="font-body text-small text-text-secondary">
-              File size estimate: <span className="font-medium">{estimatedSize()} MB</span>
+              {t('export.fileSizeEstimate')}: <span className="font-medium">{estimatedSize()} MB</span>
             </p>
           </div>
         </div>
@@ -184,10 +186,10 @@ export function ExportDialog() {
         {/* Footer */}
         <div className="flex items-center justify-end gap-3 border-t border-bg-aged px-4 py-3">
           <Button variant="secondary" onClick={() => setExportDialogOpen(false)}>
-            Cancel
+            {t('export.cancel')}
           </Button>
           <Button onClick={handleExport} isLoading={isExporting}>
-            Export
+            {t('export.export')}
           </Button>
         </div>
       </div>

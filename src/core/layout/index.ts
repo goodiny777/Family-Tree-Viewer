@@ -21,11 +21,11 @@ const DEFAULT_CONFIG: LayoutConfig = {
   nodeSize: 'standard',
   horizontalSpacing: 150,  // Spacing between generations/levels (horizontal)
   verticalSpacing: 150,    // Spacing between different family groups (vertical)
-  siblingSpacing: 70,     // Spacing between siblings from same parents
-  coupleSpacing: 40,      // Gap between spouses
+  siblingSpacing: 90,     // Spacing between siblings from same parents
+  coupleSpacing: 5,      // Gap between spouses
   maxGenerations: undefined,
   viewMode: 'all',
-  maxPeoplePerRow: 10,     // Wrap to new row after this many people
+  maxPeoplePerRow: 5,     // Wrap to new row after this many people
   rowSpacing: 80,          // Space between rows within same level
 }
 

@@ -1,27 +1,29 @@
 import { useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useStore } from '../../store'
 
-const shortcuts = [
-  { category: 'Navigation', items: [
-    { keys: ['Arrow Keys'], description: 'Pan canvas' },
-    { keys: ['+', '-'], description: 'Zoom in/out' },
-    { keys: ['0'], description: 'Fit to screen' },
-    { keys: ['Scroll'], description: 'Zoom' },
-    { keys: ['Drag'], description: 'Pan' },
-  ]},
-  { category: 'Selection', items: [
-    { keys: ['Click'], description: 'Select person' },
-    { keys: ['Double-click'], description: 'Center on person' },
-    { keys: ['Esc'], description: 'Deselect / Close' },
-  ]},
-  { category: 'Actions', items: [
-    { keys: ['Cmd/Ctrl', 'F'], description: 'Search' },
-    { keys: ['?'], description: 'Show shortcuts' },
-  ]},
-]
-
 export function ShortcutsOverlay() {
+  const { t } = useTranslation()
   const { setShortcutsOverlayOpen } = useStore((state) => state.ui)
+
+  const shortcuts = [
+    { categoryKey: 'shortcuts.navigation', items: [
+      { keys: ['Arrow Keys'], descriptionKey: 'shortcuts.panCanvas' },
+      { keys: ['+', '-'], descriptionKey: 'shortcuts.zoomInOut' },
+      { keys: ['0'], descriptionKey: 'shortcuts.fitToScreen' },
+      { keys: ['Scroll'], descriptionKey: 'shortcuts.zoom' },
+      { keys: ['Drag'], descriptionKey: 'shortcuts.pan' },
+    ]},
+    { categoryKey: 'shortcuts.selection', items: [
+      { keys: ['Click'], descriptionKey: 'shortcuts.selectPerson' },
+      { keys: ['Double-click'], descriptionKey: 'shortcuts.centerOnPerson' },
+      { keys: ['Esc'], descriptionKey: 'shortcuts.deselectClose' },
+    ]},
+    { categoryKey: 'shortcuts.actions', items: [
+      { keys: ['Cmd/Ctrl', 'F'], descriptionKey: 'topBar.search' },
+      { keys: ['?'], descriptionKey: 'shortcuts.showShortcuts' },
+    ]},
+  ]
 
   const handleBackdropClick = useCallback(
     (e: React.MouseEvent) => {
@@ -37,14 +39,14 @@ export function ShortcutsOverlay() {
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm animate-fade-in"
       onClick={handleBackdropClick}
     >
-      <div className="w-full max-w-lg rounded-lg bg-white shadow-panel animate-zoom">
+      <div className="w-full max-w-lg rounded-lg bg-white shadow-panel animate-zoom dark:bg-bg-canvas">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-bg-aged px-4 py-3">
-          <h2 className="font-display text-h2 text-text-primary">Keyboard Shortcuts</h2>
+          <h2 className="font-display text-h2 text-text-primary">{t('shortcuts.title')}</h2>
           <button
             onClick={() => setShortcutsOverlayOpen(false)}
             className="rounded-lg p-1 hover:bg-bg-panel transition-colors"
-            aria-label="Close"
+            aria-label={t('search.close')}
           >
             <svg className="h-5 w-5 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -55,13 +57,13 @@ export function ShortcutsOverlay() {
         {/* Content */}
         <div className="max-h-96 overflow-y-auto p-4 scrollbar-thin">
           {shortcuts.map((category) => (
-            <div key={category.category} className="mb-6 last:mb-0">
-              <h3 className="mb-3 font-body text-h3 text-text-primary">{category.category}</h3>
+            <div key={category.categoryKey} className="mb-6 last:mb-0">
+              <h3 className="mb-3 font-body text-h3 text-text-primary">{t(category.categoryKey)}</h3>
               <div className="space-y-2">
                 {category.items.map((item, index) => (
                   <div key={index} className="flex items-center justify-between py-1">
                     <span className="font-body text-body text-text-secondary">
-                      {item.description}
+                      {t(item.descriptionKey)}
                     </span>
                     <div className="flex items-center gap-1">
                       {item.keys.map((key, keyIndex) => (
@@ -85,7 +87,14 @@ export function ShortcutsOverlay() {
         {/* Footer */}
         <div className="border-t border-bg-aged px-4 py-3 text-center">
           <p className="font-body text-small text-text-muted">
-            Press <kbd className="rounded bg-bg-aged px-1.5 py-0.5">Esc</kbd> to close
+            {t('shortcuts.pressEscToClose', { key: 'Esc' }).split('{{key}}').map((part, i, arr) => (
+              i < arr.length - 1 ? (
+                <span key={i}>
+                  {part}
+                  <kbd className="rounded bg-bg-aged px-1.5 py-0.5">Esc</kbd>
+                </span>
+              ) : part
+            ))}
           </p>
         </div>
       </div>
