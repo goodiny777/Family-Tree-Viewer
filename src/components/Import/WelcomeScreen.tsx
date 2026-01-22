@@ -10,7 +10,7 @@ export function WelcomeScreen() {
   const [isDragging, setIsDragging] = useState(false)
   const { setGedcomData, setLoading, setError } = useStore((state) => state.gedcom)
   const { addRecentFile } = useStore((state) => state.recentFiles)
-  const recentFiles = useStore((state) => state.recentFiles.recentFiles)
+  const { setSettingsOverlayOpen, setPrivacyPolicyOpen, setTermsOfServiceOpen } = useStore((state) => state.ui)
   const isLoading = useStore((state) => state.gedcom.isLoading)
   const error = useStore((state) => state.gedcom.error)
 
@@ -113,27 +113,42 @@ export function WelcomeScreen() {
         backgroundPosition: 'center',
       }}
     >
-      {/* Navigation */}
-      <nav className="flex items-center justify-between px-8 py-4">
+      {/* Top Bar - same style as tree view */}
+      <header className="flex items-center justify-between bg-primary/95 px-4 py-2 backdrop-blur-sm">
+        {/* Logo and title */}
         <div className="flex items-center gap-3">
-          <img src="/gen_to_tree.png" alt="FamilyTree View Logo" className="h-10 w-10" />
-          <span className="font-display text-h2 text-text-primary">{t('app.name')}</span>
+          <img src="/gen_to_tree.png" alt="Logo" className="h-8 w-8" />
+          <span className="font-display text-lg font-semibold text-white">
+            {t('app.name')}
+          </span>
         </div>
-        <div className="flex items-center gap-6">
-          <a href="#" className="font-body text-body text-text-secondary hover:text-text-primary">
-            {t('nav.home')}
-          </a>
-          <a href="#" className="font-body text-body text-text-secondary hover:text-text-primary">
-            {t('nav.features')}
-          </a>
-          <a href="#" className="font-body text-body text-text-secondary hover:text-text-primary">
-            {t('nav.about')}
-          </a>
-          <a href="#" className="font-body text-body text-text-secondary hover:text-text-primary">
-            {t('nav.contact')}
-          </a>
+
+        {/* Actions */}
+        <div className="flex items-center gap-2">
+          {/* Settings */}
+          <button
+            onClick={() => setSettingsOverlayOpen(true)}
+            className="flex items-center gap-2 rounded-lg px-3 py-1.5 text-white/90 hover:bg-white/10 transition-colors"
+            aria-label={t('topBar.settings')}
+          >
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+            </svg>
+            <span className="text-sm">{t('topBar.settings')}</span>
+          </button>
         </div>
-      </nav>
+      </header>
 
       {/* Main content */}
       <main className="flex flex-col items-center justify-center px-8 py-12">
@@ -209,53 +224,26 @@ export function WelcomeScreen() {
           className="hidden"
         />
 
-        {/* Recent files */}
-        {recentFiles.length > 0 && (
-          <div className="absolute bottom-8 end-8">
-            <details className="group">
-              <summary className="flex cursor-pointer items-center gap-2 rounded-lg bg-bg-panel px-4 py-2 font-body text-small text-text-secondary hover:bg-bg-aged">
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-                  />
-                </svg>
-                {t('welcome.recentFiles')}
-              </summary>
-              <ul className="absolute bottom-full end-0 mb-2 w-64 rounded-lg bg-white shadow-panel">
-                {recentFiles.map((file) => (
-                  <li key={file.name}>
-                    <button
-                      className="w-full px-4 py-2 text-start font-body text-small text-text-primary hover:bg-bg-panel"
-                      onClick={() => {
-                        // Re-import would require storing file content, for now just show info
-                        console.log('Re-open:', file.name)
-                      }}
-                    >
-                      <span className="block truncate font-medium">{file.name}</span>
-                      <span className="text-text-muted">
-                        {file.individualCount} {t('welcome.people')}, {file.familyCount} {t('welcome.families')}
-                      </span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </details>
-          </div>
-        )}
       </main>
 
       {/* Footer */}
       <footer className="absolute bottom-0 start-0 end-0 flex items-center justify-center gap-8 py-4">
-        <a href="#" className="font-body text-small text-text-muted hover:text-text-secondary">
+        <button
+          onClick={() => setPrivacyPolicyOpen(true)}
+          className="font-body text-small text-text-muted hover:text-text-secondary transition-colors"
+        >
           {t('footer.privacyPolicy')}
-        </a>
-        <a href="#" className="font-body text-small text-text-muted hover:text-text-secondary">
+        </button>
+        <button
+          onClick={() => setTermsOfServiceOpen(true)}
+          className="font-body text-small text-text-muted hover:text-text-secondary transition-colors"
+        >
           {t('footer.termsOfService')}
-        </a>
-        <a href="#" className="font-body text-small text-text-muted hover:text-text-secondary">
+        </button>
+        <a
+          href={`mailto:goodiny777@gmail.com?subject=${encodeURIComponent(t('support.emailSubject'))}&body=${encodeURIComponent(t('support.emailBody'))}`}
+          className="font-body text-small text-text-muted hover:text-text-secondary transition-colors"
+        >
           {t('footer.support')}
         </a>
       </footer>

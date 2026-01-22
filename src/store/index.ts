@@ -106,6 +106,9 @@ interface UISlice {
   isSearchOpen: boolean
   isExportDialogOpen: boolean
   isShortcutsOverlayOpen: boolean
+  isSettingsOverlayOpen: boolean
+  isPrivacyPolicyOpen: boolean
+  isTermsOfServiceOpen: boolean
 
   // Actions
   toggleSidePanel: () => void
@@ -114,6 +117,9 @@ interface UISlice {
   setSearchOpen: (open: boolean) => void
   setExportDialogOpen: (open: boolean) => void
   setShortcutsOverlayOpen: (open: boolean) => void
+  setSettingsOverlayOpen: (open: boolean) => void
+  setPrivacyPolicyOpen: (open: boolean) => void
+  setTermsOfServiceOpen: (open: boolean) => void
 }
 
 /**
@@ -482,6 +488,9 @@ export const useStore = create<StoreState>()(
           isSearchOpen: false,
           isExportDialogOpen: false,
           isShortcutsOverlayOpen: false,
+          isSettingsOverlayOpen: false,
+          isPrivacyPolicyOpen: false,
+          isTermsOfServiceOpen: false,
 
           toggleSidePanel: () =>
             set((state) => {
@@ -528,6 +537,21 @@ export const useStore = create<StoreState>()(
           setShortcutsOverlayOpen: (open) =>
             set((state) => ({
               ui: { ...state.ui, isShortcutsOverlayOpen: open },
+            })),
+
+          setSettingsOverlayOpen: (open) =>
+            set((state) => ({
+              ui: { ...state.ui, isSettingsOverlayOpen: open },
+            })),
+
+          setPrivacyPolicyOpen: (open) =>
+            set((state) => ({
+              ui: { ...state.ui, isPrivacyPolicyOpen: open },
+            })),
+
+          setTermsOfServiceOpen: (open) =>
+            set((state) => ({
+              ui: { ...state.ui, isTermsOfServiceOpen: open },
             })),
         },
       }),

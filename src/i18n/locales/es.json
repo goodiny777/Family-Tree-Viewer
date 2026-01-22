@@ -147,5 +147,52 @@
     "ru": "Русский",
     "he": "עברית",
     "es": "Español"
+  },
+  "common": {
+    "close": "Cerrar"
+  },
+  "privacy": {
+    "lastUpdated": "Última actualización",
+    "introduction": "Introducción",
+    "introText": "Árbol Familiar está comprometido con la protección de tu privacidad. Esta política de privacidad explica cómo manejamos tus datos cuando usas nuestra aplicación.",
+    "dataCollection": "Datos que recopilamos",
+    "dataCollectionText": "Recopilamos datos mínimos para mejorar nuestro servicio:",
+    "dataItem1": "Estadísticas de uso anónimas a través de Google Analytics (vistas de página, uso de funciones, tipo de dispositivo)",
+    "dataItem2": "Tus preferencias y configuraciones (almacenadas localmente en tu dispositivo)",
+    "dataItem3": "Los datos genealógicos personales nunca se transmiten a nuestros servidores",
+    "analytics": "Google Analytics",
+    "analyticsText": "Usamos Google Analytics para entender cómo los usuarios interactúan con nuestra aplicación. Esto nos ayuda a mejorar la experiencia del usuario. Google Analytics recopila información anónima como tipo de dispositivo, navegador, páginas visitadas y tiempo empleado. Estos datos son agregados y no pueden usarse para identificarte personalmente.",
+    "localStorage": "Almacenamiento local",
+    "localStorageText": "Las configuraciones y preferencias de tu aplicación se almacenan en el almacenamiento local de tu navegador. Estos datos nunca salen de tu dispositivo y solo se usan para recordar tus preferencias entre sesiones.",
+    "noServerStorage": "Tus datos familiares permanecen privados",
+    "noServerStorageText": "Todos los archivos GEDCOM y datos del árbol familiar se procesan completamente en tu dispositivo. No subimos, almacenamos ni tenemos acceso a tus datos genealógicos. Tu historia familiar permanece completamente privada y bajo tu control.",
+    "contact": "Contáctanos",
+    "contactText": "Si tienes alguna pregunta sobre esta política de privacidad, por favor contáctanos en"
+  },
+  "terms": {
+    "lastUpdated": "Última actualización",
+    "acceptance": "Aceptación de términos",
+    "acceptanceText": "Al acceder y usar Árbol Familiar, aceptas estar sujeto a estos Términos de Servicio. Si no estás de acuerdo con estos términos, por favor no uses la aplicación.",
+    "useOfService": "Uso del servicio",
+    "useOfServiceText": "Puedes usar Árbol Familiar para propósitos personales y no comerciales. Aceptas:",
+    "useItem1": "Usar la aplicación en cumplimiento con todas las leyes aplicables",
+    "useItem2": "No intentar realizar ingeniería inversa ni modificar la aplicación",
+    "useItem3": "No usar la aplicación para ningún propósito ilegal o no autorizado",
+    "intellectualProperty": "Propiedad intelectual",
+    "intellectualPropertyText": "Árbol Familiar y su contenido original, características y funcionalidad son propiedad de los desarrolladores y están protegidos por leyes internacionales de derechos de autor, marcas comerciales y otras leyes de propiedad intelectual.",
+    "userContent": "Contenido del usuario",
+    "userContentText": "Cualquier archivo GEDCOM o datos familiares que proceses con Árbol Familiar siguen siendo tu propiedad. No reclamamos ningún derecho de propiedad sobre tu contenido. Todo el procesamiento se realiza localmente en tu dispositivo.",
+    "disclaimer": "Descargo de responsabilidad",
+    "disclaimerText": "Árbol Familiar se proporciona \"tal cual\" sin garantías de ningún tipo. No garantizamos que la aplicación esté libre de errores o interrupciones. Usa la aplicación bajo tu propio riesgo.",
+    "limitation": "Limitación de responsabilidad",
+    "limitationText": "En ningún caso Árbol Familiar o sus desarrolladores serán responsables por daños indirectos, incidentales, especiales, consecuentes o punitivos que surjan de tu uso de la aplicación.",
+    "changes": "Cambios en los términos",
+    "changesText": "Nos reservamos el derecho de modificar estos términos en cualquier momento. Notificaremos a los usuarios sobre cambios significativos actualizando la fecha de \"Última actualización\". El uso continuado de la aplicación después de los cambios constituye aceptación de los nuevos términos.",
+    "contact": "Contacto",
+    "contactText": "Si tienes alguna pregunta sobre estos Términos de Servicio, por favor contáctanos en"
+  },
+  "support": {
+    "emailSubject": "Solicitud de soporte para Árbol Familiar",
+    "emailBody": "Hola,\n\nEscribo respecto a Árbol Familiar.\n\nDescripción de mi problema o pregunta:\n\n\n\nNavegador/Dispositivo:\n\n¡Gracias por tu ayuda!"
   }
 }

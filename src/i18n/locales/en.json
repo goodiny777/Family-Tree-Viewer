@@ -147,5 +147,52 @@
     "ru": "Русский",
     "he": "עברית",
     "es": "Español"
+  },
+  "common": {
+    "close": "Close"
+  },
+  "privacy": {
+    "lastUpdated": "Last updated",
+    "introduction": "Introduction",
+    "introText": "FamilyTree View is committed to protecting your privacy. This privacy policy explains how we handle your data when you use our application.",
+    "dataCollection": "Data We Collect",
+    "dataCollectionText": "We collect minimal data to improve our service:",
+    "dataItem1": "Anonymous usage statistics through Google Analytics (page views, feature usage, device type)",
+    "dataItem2": "Your preferences and settings (stored locally on your device)",
+    "dataItem3": "No personal genealogy data is ever transmitted to our servers",
+    "analytics": "Google Analytics",
+    "analyticsText": "We use Google Analytics to understand how users interact with our application. This helps us improve the user experience. Google Analytics collects anonymous information such as your device type, browser, pages visited, and time spent. This data is aggregated and cannot be used to identify you personally.",
+    "localStorage": "Local Storage",
+    "localStorageText": "Your application settings and preferences are stored in your browser's local storage. This data never leaves your device and is only used to remember your preferences between sessions.",
+    "noServerStorage": "Your Family Data Stays Private",
+    "noServerStorageText": "All GEDCOM files and family tree data are processed entirely on your device. We do not upload, store, or have access to your genealogy data. Your family history remains completely private and under your control.",
+    "contact": "Contact Us",
+    "contactText": "If you have any questions about this privacy policy, please contact us at"
+  },
+  "terms": {
+    "lastUpdated": "Last updated",
+    "acceptance": "Acceptance of Terms",
+    "acceptanceText": "By accessing and using FamilyTree View, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the application.",
+    "useOfService": "Use of Service",
+    "useOfServiceText": "You may use FamilyTree View for personal, non-commercial purposes. You agree to:",
+    "useItem1": "Use the application in compliance with all applicable laws",
+    "useItem2": "Not attempt to reverse engineer or modify the application",
+    "useItem3": "Not use the application for any illegal or unauthorized purpose",
+    "intellectualProperty": "Intellectual Property",
+    "intellectualPropertyText": "FamilyTree View and its original content, features, and functionality are owned by the developers and are protected by international copyright, trademark, and other intellectual property laws.",
+    "userContent": "User Content",
+    "userContentText": "Any GEDCOM files or family data you process with FamilyTree View remain your property. We do not claim any ownership rights over your content. All processing is done locally on your device.",
+    "disclaimer": "Disclaimer",
+    "disclaimerText": "FamilyTree View is provided \"as is\" without warranties of any kind. We do not guarantee that the application will be error-free or uninterrupted. Use the application at your own risk.",
+    "limitation": "Limitation of Liability",
+    "limitationText": "In no event shall FamilyTree View or its developers be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the application.",
+    "changes": "Changes to Terms",
+    "changesText": "We reserve the right to modify these terms at any time. We will notify users of significant changes by updating the \"Last updated\" date. Continued use of the application after changes constitutes acceptance of the new terms.",
+    "contact": "Contact",
+    "contactText": "If you have any questions about these Terms of Service, please contact us at"
+  },
+  "support": {
+    "emailSubject": "FamilyTree View Support Request",
+    "emailBody": "Hello,\n\nI am writing regarding FamilyTree View.\n\nDescription of my issue or question:\n\n\n\nBrowser/Device:\n\nThank you for your help!"
   }
 }
