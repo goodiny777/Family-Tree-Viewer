@@ -7,21 +7,21 @@ export function TopBar() {
   const { clearGedcomData } = useStore((state) => state.gedcom)
 
   return (
-    <header className="absolute top-0 start-0 end-0 z-10 flex items-center justify-between bg-primary/95 px-4 py-2 backdrop-blur-sm">
+    <header className="absolute top-0 start-0 end-0 z-10 flex items-center justify-between bg-primary/95 px-2 md:px-4 py-2 backdrop-blur-sm">
       {/* Logo and title */}
-      <div className="flex items-center gap-3">
-        <img src="/gen_to_tree.png" alt="Logo" className="h-8 w-8" />
-        <span className="font-display text-lg font-semibold text-white">
+      <div className="flex items-center gap-2 md:gap-3">
+        <img src="/gen_to_tree.png" alt="Logo" className="h-7 w-7 md:h-8 md:w-8" />
+        <span className="font-display text-base md:text-lg font-semibold text-white">
           {t('app.name')}
         </span>
       </div>
 
       {/* Actions */}
-      <div className="flex items-center gap-2">
-        {/* Search */}
+      <div className="flex items-center gap-1 md:gap-2">
+        {/* Search - hidden on mobile (accessible via nav bar) */}
         <button
           onClick={() => setSearchOpen(true)}
-          className="flex items-center gap-2 rounded-lg px-3 py-1.5 text-white/90 hover:bg-white/10 transition-colors"
+          className="hidden md:flex items-center gap-2 rounded-lg px-3 py-1.5 text-white/90 hover:bg-white/10 transition-colors"
           aria-label={t('topBar.search')}
         >
           <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -38,7 +38,7 @@ export function TopBar() {
         {/* Import */}
         <button
           onClick={() => clearGedcomData()}
-          className="flex items-center gap-2 rounded-lg px-3 py-1.5 text-white/90 hover:bg-white/10 transition-colors"
+          className="flex items-center gap-2 rounded-lg px-2 md:px-3 py-1.5 text-white/90 hover:bg-white/10 transition-colors"
           aria-label={t('topBar.import')}
         >
           <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -49,13 +49,13 @@ export function TopBar() {
               d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
             />
           </svg>
-          <span className="text-sm">{t('topBar.import')}</span>
+          <span className="hidden md:inline text-sm">{t('topBar.import')}</span>
         </button>
 
         {/* Export */}
         <button
           onClick={() => setExportDialogOpen(true)}
-          className="flex items-center gap-2 rounded-lg px-3 py-1.5 text-white/90 hover:bg-white/10 transition-colors"
+          className="flex items-center gap-2 rounded-lg px-2 md:px-3 py-1.5 text-white/90 hover:bg-white/10 transition-colors"
           aria-label={t('topBar.export')}
         >
           <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -66,13 +66,13 @@ export function TopBar() {
               d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
             />
           </svg>
-          <span className="text-sm">{t('topBar.export')}</span>
+          <span className="hidden md:inline text-sm">{t('topBar.export')}</span>
         </button>
 
-        {/* Settings */}
+        {/* Settings - hidden on mobile (accessible via nav bar) */}
         <button
           onClick={() => setSidePanelTab('settings')}
-          className="flex items-center gap-2 rounded-lg px-3 py-1.5 text-white/90 hover:bg-white/10 transition-colors"
+          className="hidden md:flex items-center gap-2 rounded-lg px-3 py-1.5 text-white/90 hover:bg-white/10 transition-colors"
           aria-label={t('topBar.settings')}
         >
           <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -20,8 +20,16 @@ export function FamilyTreeCanvas() {
   const settings = useStore((state) => state.settings.settings)
 
   // Initialize canvas interactions
-  const { handleMouseDown, handleMouseMove, handleMouseUp, handleWheel, consumeDragState } =
-    useCanvasInteractions(canvasRef)
+  const {
+    handleMouseDown,
+    handleMouseMove,
+    handleMouseUp,
+    handleWheel,
+    handleTouchStart,
+    handleTouchMove,
+    handleTouchEnd,
+    consumeDragState,
+  } = useCanvasInteractions(canvasRef)
 
   // Handle canvas resize
   useEffect(() => {
@@ -151,7 +159,7 @@ export function FamilyTreeCanvas() {
     >
       <canvas
         ref={canvasRef}
-        className="cursor-grab active:cursor-grabbing"
+        className="cursor-grab active:cursor-grabbing touch-none"
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
@@ -159,6 +167,10 @@ export function FamilyTreeCanvas() {
         onWheel={handleWheel}
         onClick={handleCanvasClick}
         onDoubleClick={handleDoubleClick}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onTouchCancel={handleTouchEnd}
       />
     </div>
   )

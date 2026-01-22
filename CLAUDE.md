@@ -79,6 +79,61 @@
 - Export: PNG, PDF, SVG
 - Minimap for navigation
 - Generation depth control
+- **Mobile responsive design** with touch gestures
+
+## Mobile View
+
+**Breakpoint:** 768px (`md`) - below this triggers mobile layout
+
+### Touch Gestures
+| Gesture | Action |
+|---------|--------|
+| Single finger drag | Pan the canvas |
+| Two finger pinch | Zoom in/out |
+| Tap on node | Select person |
+
+### Mobile-Specific Components
+
+| Component | Location | Purpose |
+|-----------|----------|---------|
+| `BottomSheet` | `src/components/Mobile/` | Full-screen drawer from bottom (swipe down to close) |
+| `MobileNavBar` | `src/components/Mobile/` | Bottom navigation (Search, Person, View, Settings) |
+| `MobileFloatingControls` | `src/components/Mobile/` | Floating zoom buttons (right side) |
+| `MobileViewModeSheet` | `src/components/Mobile/` | View mode + generation slider bottom sheet |
+
+### Layout Differences (Mobile vs Desktop)
+
+| Element | Desktop | Mobile |
+|---------|---------|--------|
+| Side Panel | Slide-in from right (320px) | Full-screen bottom sheet |
+| Zoom Controls | Bottom-left panel | Floating buttons (bottom-right) |
+| View Mode Selector | Bottom-left panel | Bottom sheet via nav bar |
+| Generation Slider | Bottom-left panel | Inside view mode sheet |
+| Minimap | Bottom-left panel | Hidden |
+| TopBar buttons | Icon + text labels | Icons only |
+| Search hints | Keyboard shortcuts shown | Hidden |
+
+### Mobile Detection Hook
+
+```typescript
+import { useIsMobile } from '../hooks/useIsMobile'
+
+function MyComponent() {
+  const { isMobile } = useIsMobile()
+
+  if (isMobile) {
+    return <MobileVersion />
+  }
+  return <DesktopVersion />
+}
+```
+
+### Safe Area Support
+
+For notched devices (iPhone X+), use safe area utilities:
+- `pb-safe` - padding-bottom with safe area inset
+- `pt-safe` - padding-top with safe area inset
+- `mb-safe` - margin-bottom with safe area inset
 
 ## View Mode Behavior
 
@@ -108,7 +163,12 @@ src/
 │   ├── Navigation/      # TopBar, ZoomControls, Minimap
 │   ├── Search/          # Search overlay
 │   ├── Import/          # Welcome screen, file drop
-│   └── Export/          # Export dialog
+│   ├── Export/          # Export dialog
+│   └── Mobile/          # Mobile-specific components
+│       ├── BottomSheet.tsx
+│       ├── MobileNavBar.tsx
+│       ├── MobileFloatingControls.tsx
+│       └── MobileViewModeSheet.tsx
 ├── core/
 │   ├── gedcom/          # GEDCOM parsing
 │   ├── layout/          # Tree layout algorithms
@@ -116,6 +176,10 @@ src/
 │   └── export/          # PNG/PDF/SVG export
 ├── store/               # Zustand state management
 ├── hooks/               # Custom React hooks
+│   ├── useIsMobile.ts   # Mobile breakpoint detection
+│   ├── useKeyboardShortcuts.ts
+│   ├── useTreeLayout.ts
+│   └── useInitialization.ts
 ├── i18n/                # Internationalization
 │   ├── index.ts         # i18next configuration
 │   └── locales/         # Translation JSON files (en, ru, he, es)
