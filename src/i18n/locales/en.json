@@ -1,0 +1,151 @@
+{
+  "app": {
+    "name": "FamilyTree View"
+  },
+  "nav": {
+    "home": "Home",
+    "features": "Features",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "welcome": {
+    "title": "Welcome to FamilyTree View",
+    "dragDrop": "Drag & drop GEDCOM file here",
+    "or": "or",
+    "clickToBrowse": "Click to browse",
+    "openFile": "Open file",
+    "loading": "Loading...",
+    "loadSample": "Load sample",
+    "recentFiles": "Recent files",
+    "people": "people",
+    "families": "families",
+    "invalidFile": "Please select a valid GEDCOM file (.ged)",
+    "failedToParse": "Failed to parse GEDCOM file",
+    "failedToLoad": "Failed to load sample file"
+  },
+  "footer": {
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "support": "Support"
+  },
+  "topBar": {
+    "search": "Search",
+    "import": "Import",
+    "export": "Export",
+    "settings": "Settings"
+  },
+  "search": {
+    "placeholder": "Search by name or ID...",
+    "noResults": "No results found",
+    "navigate": "Navigate",
+    "select": "Select",
+    "close": "Close",
+    "id": "ID"
+  },
+  "export": {
+    "title": "Export Dialog",
+    "scope": "Scope",
+    "visibleArea": "Visible area",
+    "fullTree": "Full tree",
+    "currentSelection": "Current selection",
+    "generationDepth": "Generation depth",
+    "generations": "generations",
+    "includePhotos": "Include photos",
+    "includePopulation": "Include population",
+    "includeCurrentSelection": "Include current selection",
+    "fileSizeEstimate": "File size estimate",
+    "cancel": "Cancel",
+    "export": "Export"
+  },
+  "sidePanel": {
+    "personInfo": "Person Info",
+    "settings": "Settings"
+  },
+  "personInfo": {
+    "selectPerson": "Select a person to view their details",
+    "male": "Male",
+    "female": "Female",
+    "unknown": "Unknown",
+    "birth": "Birth",
+    "death": "Death",
+    "dateUnknown": "Date unknown",
+    "occupation": "Occupation",
+    "education": "Education",
+    "contact": "Contact",
+    "details": "Details",
+    "religion": "Religion",
+    "nationality": "Nationality",
+    "interests": "Interests",
+    "notes": "Notes",
+    "parents": "Parents",
+    "father": "Father",
+    "mother": "Mother",
+    "family": "Family",
+    "spouse": "Spouse",
+    "married": "Married",
+    "child": "Child",
+    "centerOnPerson": "Center on person"
+  },
+  "settings": {
+    "nodeSize": "Node Size",
+    "compact": "Compact",
+    "standard": "Standard",
+    "detailed": "Detailed",
+    "display": "Display",
+    "showDates": "Show dates",
+    "showPlaces": "Show places",
+    "showPhotos": "Show photos",
+    "showIds": "Show IDs",
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "connectionLines": "Connection Lines",
+    "curved": "Curved",
+    "straight": "Straight",
+    "angular": "Angular",
+    "performance": "Performance",
+    "enableAnimations": "Enable animations",
+    "animationsDescription": "Smooth transitions and micro-interactions",
+    "language": "Language"
+  },
+  "viewModes": {
+    "all": "All",
+    "family": "Family",
+    "hourglass": "Hourglass",
+    "pedigree": "Pedigree",
+    "showEveryone": "Show everyone",
+    "immediateFamily": "Immediate family",
+    "ancestorsDescendants": "Ancestors & descendants",
+    "ancestorsOnly": "Ancestors only",
+    "selectPersonFirst": "select a person first",
+    "clickToEnableFiltered": "Click a person to enable filtered views"
+  },
+  "zoom": {
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "fitToScreen": "Fit to screen"
+  },
+  "shortcuts": {
+    "title": "Keyboard Shortcuts",
+    "pressEscToClose": "Press {{key}} to close",
+    "navigation": "Navigation",
+    "panCanvas": "Pan canvas",
+    "zoomInOut": "Zoom in/out",
+    "fitToScreen": "Fit to screen",
+    "zoom": "Zoom",
+    "pan": "Pan",
+    "selection": "Selection",
+    "selectPerson": "Select person",
+    "centerOnPerson": "Center on person",
+    "deselectClose": "Deselect / Close",
+    "actions": "Actions",
+    "showShortcuts": "Show shortcuts"
+  },
+  "languages": {
+    "en": "English",
+    "ru": "Русский",
+    "he": "עברית",
+    "es": "Español"
+  }
+}

@@ -1,0 +1,151 @@
+{
+  "app": {
+    "name": "עץ המשפחה"
+  },
+  "nav": {
+    "home": "בית",
+    "features": "תכונות",
+    "about": "אודות",
+    "contact": "צור קשר"
+  },
+  "welcome": {
+    "title": "ברוכים הבאים לעץ המשפחה",
+    "dragDrop": "גרור ושחרר קובץ GEDCOM כאן",
+    "or": "או",
+    "clickToBrowse": "לחץ לעיון",
+    "openFile": "פתח קובץ",
+    "loading": "טוען...",
+    "loadSample": "טען דוגמה",
+    "recentFiles": "קבצים אחרונים",
+    "people": "אנשים",
+    "families": "משפחות",
+    "invalidFile": "אנא בחר קובץ GEDCOM תקין (.ged)",
+    "failedToParse": "לא ניתן לעבד את קובץ GEDCOM",
+    "failedToLoad": "לא ניתן לטעון את קובץ הדוגמה"
+  },
+  "footer": {
+    "privacyPolicy": "מדיניות פרטיות",
+    "termsOfService": "תנאי שימוש",
+    "support": "תמיכה"
+  },
+  "topBar": {
+    "search": "חיפוש",
+    "import": "ייבוא",
+    "export": "ייצוא",
+    "settings": "הגדרות"
+  },
+  "search": {
+    "placeholder": "חיפוש לפי שם או מזהה...",
+    "noResults": "לא נמצאו תוצאות",
+    "navigate": "ניווט",
+    "select": "בחר",
+    "close": "סגור",
+    "id": "מזהה"
+  },
+  "export": {
+    "title": "ייצוא",
+    "scope": "היקף",
+    "visibleArea": "אזור נראה",
+    "fullTree": "עץ מלא",
+    "currentSelection": "בחירה נוכחית",
+    "generationDepth": "עומק דורות",
+    "generations": "דורות",
+    "includePhotos": "כלול תמונות",
+    "includePopulation": "כלול אוכלוסייה",
+    "includeCurrentSelection": "כלול בחירה נוכחית",
+    "fileSizeEstimate": "גודל קובץ משוער",
+    "cancel": "ביטול",
+    "export": "ייצוא"
+  },
+  "sidePanel": {
+    "personInfo": "פרטי אדם",
+    "settings": "הגדרות"
+  },
+  "personInfo": {
+    "selectPerson": "בחר אדם לצפייה בפרטיו",
+    "male": "זכר",
+    "female": "נקבה",
+    "unknown": "לא ידוע",
+    "birth": "לידה",
+    "death": "פטירה",
+    "dateUnknown": "תאריך לא ידוע",
+    "occupation": "עיסוק",
+    "education": "השכלה",
+    "contact": "פרטי קשר",
+    "details": "פרטים",
+    "religion": "דת",
+    "nationality": "לאום",
+    "interests": "תחומי עניין",
+    "notes": "הערות",
+    "parents": "הורים",
+    "father": "אב",
+    "mother": "אם",
+    "family": "משפחה",
+    "spouse": "בן/בת זוג",
+    "married": "נישואין",
+    "child": "ילד/ה",
+    "centerOnPerson": "מרכז על האדם"
+  },
+  "settings": {
+    "nodeSize": "גודל כרטיסים",
+    "compact": "קומפקטי",
+    "standard": "רגיל",
+    "detailed": "מפורט",
+    "display": "תצוגה",
+    "showDates": "הצג תאריכים",
+    "showPlaces": "הצג מקומות",
+    "showPhotos": "הצג תמונות",
+    "showIds": "הצג מזהים",
+    "theme": "ערכת נושא",
+    "light": "בהירה",
+    "dark": "כהה",
+    "system": "מערכת",
+    "connectionLines": "קווי חיבור",
+    "curved": "מעוקלים",
+    "straight": "ישרים",
+    "angular": "זוויתיים",
+    "performance": "ביצועים",
+    "enableAnimations": "הפעל אנימציות",
+    "animationsDescription": "מעברים חלקים ואינטראקציות עדינות",
+    "language": "שפה"
+  },
+  "viewModes": {
+    "all": "הכל",
+    "family": "משפחה",
+    "hourglass": "שעון חול",
+    "pedigree": "ייחוס",
+    "showEveryone": "הצג הכל",
+    "immediateFamily": "משפחה קרובה",
+    "ancestorsDescendants": "אבות וצאצאים",
+    "ancestorsOnly": "אבות בלבד",
+    "selectPersonFirst": "בחר אדם קודם",
+    "clickToEnableFiltered": "לחץ על אדם להפעלת תצוגות מסוננות"
+  },
+  "zoom": {
+    "zoomIn": "הגדל",
+    "zoomOut": "הקטן",
+    "fitToScreen": "התאם למסך"
+  },
+  "shortcuts": {
+    "title": "קיצורי מקלדת",
+    "pressEscToClose": "לחץ {{key}} לסגירה",
+    "navigation": "ניווט",
+    "panCanvas": "הזזת הקנבס",
+    "zoomInOut": "הגדל/הקטן",
+    "fitToScreen": "התאם למסך",
+    "zoom": "זום",
+    "pan": "הזזה",
+    "selection": "בחירה",
+    "selectPerson": "בחר אדם",
+    "centerOnPerson": "מרכז על האדם",
+    "deselectClose": "בטל / סגור",
+    "actions": "פעולות",
+    "showShortcuts": "הצג קיצורים"
+  },
+  "languages": {
+    "en": "English",
+    "ru": "Русский",
+    "he": "עברית",
+    "es": "Español"
+  }
+}

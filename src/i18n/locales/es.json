@@ -1,0 +1,151 @@
+{
+  "app": {
+    "name": "Árbol Familiar"
+  },
+  "nav": {
+    "home": "Inicio",
+    "features": "Características",
+    "about": "Acerca de",
+    "contact": "Contacto"
+  },
+  "welcome": {
+    "title": "Bienvenido a Árbol Familiar",
+    "dragDrop": "Arrastra y suelta el archivo GEDCOM aquí",
+    "or": "o",
+    "clickToBrowse": "Haz clic para buscar",
+    "openFile": "Abrir archivo",
+    "loading": "Cargando...",
+    "loadSample": "Cargar ejemplo",
+    "recentFiles": "Archivos recientes",
+    "people": "personas",
+    "families": "familias",
+    "invalidFile": "Por favor, selecciona un archivo GEDCOM válido (.ged)",
+    "failedToParse": "Error al procesar el archivo GEDCOM",
+    "failedToLoad": "Error al cargar el archivo de ejemplo"
+  },
+  "footer": {
+    "privacyPolicy": "Política de privacidad",
+    "termsOfService": "Términos de servicio",
+    "support": "Soporte"
+  },
+  "topBar": {
+    "search": "Buscar",
+    "import": "Importar",
+    "export": "Exportar",
+    "settings": "Ajustes"
+  },
+  "search": {
+    "placeholder": "Buscar por nombre o ID...",
+    "noResults": "Sin resultados",
+    "navigate": "Navegar",
+    "select": "Seleccionar",
+    "close": "Cerrar",
+    "id": "ID"
+  },
+  "export": {
+    "title": "Exportar",
+    "scope": "Alcance",
+    "visibleArea": "Área visible",
+    "fullTree": "Árbol completo",
+    "currentSelection": "Selección actual",
+    "generationDepth": "Profundidad de generaciones",
+    "generations": "generaciones",
+    "includePhotos": "Incluir fotos",
+    "includePopulation": "Incluir población",
+    "includeCurrentSelection": "Incluir selección actual",
+    "fileSizeEstimate": "Tamaño estimado del archivo",
+    "cancel": "Cancelar",
+    "export": "Exportar"
+  },
+  "sidePanel": {
+    "personInfo": "Info de Persona",
+    "settings": "Ajustes"
+  },
+  "personInfo": {
+    "selectPerson": "Selecciona una persona para ver sus detalles",
+    "male": "Masculino",
+    "female": "Femenino",
+    "unknown": "Desconocido",
+    "birth": "Nacimiento",
+    "death": "Fallecimiento",
+    "dateUnknown": "Fecha desconocida",
+    "occupation": "Ocupación",
+    "education": "Educación",
+    "contact": "Contacto",
+    "details": "Detalles",
+    "religion": "Religión",
+    "nationality": "Nacionalidad",
+    "interests": "Intereses",
+    "notes": "Notas",
+    "parents": "Padres",
+    "father": "Padre",
+    "mother": "Madre",
+    "family": "Familia",
+    "spouse": "Cónyuge",
+    "married": "Casado",
+    "child": "Hijo/a",
+    "centerOnPerson": "Centrar en persona"
+  },
+  "settings": {
+    "nodeSize": "Tamaño de tarjetas",
+    "compact": "Compacto",
+    "standard": "Estándar",
+    "detailed": "Detallado",
+    "display": "Visualización",
+    "showDates": "Mostrar fechas",
+    "showPlaces": "Mostrar lugares",
+    "showPhotos": "Mostrar fotos",
+    "showIds": "Mostrar IDs",
+    "theme": "Tema",
+    "light": "Claro",
+    "dark": "Oscuro",
+    "system": "Sistema",
+    "connectionLines": "Líneas de conexión",
+    "curved": "Curvas",
+    "straight": "Rectas",
+    "angular": "Angulares",
+    "performance": "Rendimiento",
+    "enableAnimations": "Activar animaciones",
+    "animationsDescription": "Transiciones suaves y micro-interacciones",
+    "language": "Idioma"
+  },
+  "viewModes": {
+    "all": "Todo",
+    "family": "Familia",
+    "hourglass": "Reloj de arena",
+    "pedigree": "Pedigrí",
+    "showEveryone": "Mostrar todos",
+    "immediateFamily": "Familia inmediata",
+    "ancestorsDescendants": "Ancestros y descendientes",
+    "ancestorsOnly": "Solo ancestros",
+    "selectPersonFirst": "selecciona una persona primero",
+    "clickToEnableFiltered": "Haz clic en una persona para habilitar vistas filtradas"
+  },
+  "zoom": {
+    "zoomIn": "Acercar",
+    "zoomOut": "Alejar",
+    "fitToScreen": "Ajustar a pantalla"
+  },
+  "shortcuts": {
+    "title": "Atajos de teclado",
+    "pressEscToClose": "Presiona {{key}} para cerrar",
+    "navigation": "Navegación",
+    "panCanvas": "Mover canvas",
+    "zoomInOut": "Acercar/alejar",
+    "fitToScreen": "Ajustar a pantalla",
+    "zoom": "Zoom",
+    "pan": "Mover",
+    "selection": "Selección",
+    "selectPerson": "Seleccionar persona",
+    "centerOnPerson": "Centrar en persona",
+    "deselectClose": "Deseleccionar / Cerrar",
+    "actions": "Acciones",
+    "showShortcuts": "Mostrar atajos"
+  },
+  "languages": {
+    "en": "English",
+    "ru": "Русский",
+    "he": "עברית",
+    "es": "Español"
+  }
+}

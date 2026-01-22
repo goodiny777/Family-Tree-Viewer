@@ -1,0 +1,151 @@
+{
+  "app": {
+    "name": "Семейное Древо"
+  },
+  "nav": {
+    "home": "Главная",
+    "features": "Возможности",
+    "about": "О нас",
+    "contact": "Контакты"
+  },
+  "welcome": {
+    "title": "Добро пожаловать в Семейное Древо",
+    "dragDrop": "Перетащите файл GEDCOM сюда",
+    "or": "или",
+    "clickToBrowse": "Нажмите для выбора",
+    "openFile": "Открыть файл",
+    "loading": "Загрузка...",
+    "loadSample": "Загрузить пример",
+    "recentFiles": "Недавние файлы",
+    "people": "человек",
+    "families": "семей",
+    "invalidFile": "Пожалуйста, выберите корректный файл GEDCOM (.ged)",
+    "failedToParse": "Не удалось обработать файл GEDCOM",
+    "failedToLoad": "Не удалось загрузить файл примера"
+  },
+  "footer": {
+    "privacyPolicy": "Политика конфиденциальности",
+    "termsOfService": "Условия использования",
+    "support": "Поддержка"
+  },
+  "topBar": {
+    "search": "Поиск",
+    "import": "Импорт",
+    "export": "Экспорт",
+    "settings": "Настройки"
+  },
+  "search": {
+    "placeholder": "Поиск по имени или ID...",
+    "noResults": "Ничего не найдено",
+    "navigate": "Навигация",
+    "select": "Выбрать",
+    "close": "Закрыть",
+    "id": "ID"
+  },
+  "export": {
+    "title": "Экспорт",
+    "scope": "Область",
+    "visibleArea": "Видимая область",
+    "fullTree": "Всё дерево",
+    "currentSelection": "Текущий выбор",
+    "generationDepth": "Глубина поколений",
+    "generations": "поколений",
+    "includePhotos": "Включить фотографии",
+    "includePopulation": "Включить население",
+    "includeCurrentSelection": "Включить текущий выбор",
+    "fileSizeEstimate": "Примерный размер файла",
+    "cancel": "Отмена",
+    "export": "Экспорт"
+  },
+  "sidePanel": {
+    "personInfo": "Информация",
+    "settings": "Настройки"
+  },
+  "personInfo": {
+    "selectPerson": "Выберите человека для просмотра информации",
+    "male": "Мужчина",
+    "female": "Женщина",
+    "unknown": "Неизвестно",
+    "birth": "Рождение",
+    "death": "Смерть",
+    "dateUnknown": "Дата неизвестна",
+    "occupation": "Профессия",
+    "education": "Образование",
+    "contact": "Контакты",
+    "details": "Подробности",
+    "religion": "Религия",
+    "nationality": "Национальность",
+    "interests": "Интересы",
+    "notes": "Заметки",
+    "parents": "Родители",
+    "father": "Отец",
+    "mother": "Мать",
+    "family": "Семья",
+    "spouse": "Супруг(а)",
+    "married": "Брак",
+    "child": "Ребёнок",
+    "centerOnPerson": "Центрировать"
+  },
+  "settings": {
+    "nodeSize": "Размер карточек",
+    "compact": "Компактный",
+    "standard": "Стандартный",
+    "detailed": "Подробный",
+    "display": "Отображение",
+    "showDates": "Показывать даты",
+    "showPlaces": "Показывать места",
+    "showPhotos": "Показывать фото",
+    "showIds": "Показывать ID",
+    "theme": "Тема",
+    "light": "Светлая",
+    "dark": "Тёмная",
+    "system": "Системная",
+    "connectionLines": "Линии связей",
+    "curved": "Изогнутые",
+    "straight": "Прямые",
+    "angular": "Угловые",
+    "performance": "Производительность",
+    "enableAnimations": "Включить анимации",
+    "animationsDescription": "Плавные переходы и микро-взаимодействия",
+    "language": "Язык"
+  },
+  "viewModes": {
+    "all": "Все",
+    "family": "Семья",
+    "hourglass": "Песочные часы",
+    "pedigree": "Родословная",
+    "showEveryone": "Показать всех",
+    "immediateFamily": "Ближайшая семья",
+    "ancestorsDescendants": "Предки и потомки",
+    "ancestorsOnly": "Только предки",
+    "selectPersonFirst": "сначала выберите человека",
+    "clickToEnableFiltered": "Выберите человека для фильтрации"
+  },
+  "zoom": {
+    "zoomIn": "Увеличить",
+    "zoomOut": "Уменьшить",
+    "fitToScreen": "По размеру экрана"
+  },
+  "shortcuts": {
+    "title": "Горячие клавиши",
+    "pressEscToClose": "Нажмите {{key}} для закрытия",
+    "navigation": "Навигация",
+    "panCanvas": "Перемещение",
+    "zoomInOut": "Увеличить/уменьшить",
+    "fitToScreen": "По размеру экрана",
+    "zoom": "Масштаб",
+    "pan": "Перемещение",
+    "selection": "Выбор",
+    "selectPerson": "Выбрать человека",
+    "centerOnPerson": "Центрировать",
+    "deselectClose": "Отменить / Закрыть",
+    "actions": "Действия",
+    "showShortcuts": "Показать клавиши"
+  },
+  "languages": {
+    "en": "English",
+    "ru": "Русский",
+    "he": "עברית",
+    "es": "Español"
+  }
+}
