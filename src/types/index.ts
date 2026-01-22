@@ -52,6 +52,7 @@ export interface AppSettings {
   // View
   viewMode: import('./tree').ViewMode
   generationDepth: number
+  generationFilterEnabled: boolean
 
   // Performance
   enableAnimations: boolean

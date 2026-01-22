@@ -10,12 +10,14 @@ export function FamilyTreeCanvas() {
 
   const nodes = useStore((state) => state.tree.nodes)
   const connections = useStore((state) => state.tree.connections)
-  const { viewport, setViewport } = useStore((state) => state.viewport)
+  const bounds = useStore((state) => state.tree.bounds)
+  const levelBands = useStore((state) => state.tree.levelBands)
+  const { viewport, setViewport, centerOnNode } = useStore((state) => state.viewport)
   const { selection, setFocusedPerson } = useStore((state) => state.selection)
   const settings = useStore((state) => state.settings.settings)
 
   // Initialize canvas interactions
-  const { handleMouseDown, handleMouseMove, handleMouseUp, handleWheel } =
+  const { handleMouseDown, handleMouseMove, handleMouseUp, handleWheel, consumeDragState } =
     useCanvasInteractions(canvasRef)
 
   // Handle canvas resize
@@ -63,11 +65,48 @@ export function FamilyTreeCanvas() {
       viewport,
       selection,
       settings,
+      levelBands,
+      bounds,
     })
-  }, [nodes, connections, viewport, selection, settings])
+  }, [nodes, connections, viewport, selection, settings, levelBands, bounds])
 
-  // Handle node click
+  // Handle node click - using circular hit testing
   const handleCanvasClick = useCallback(
+    (e: React.MouseEvent<HTMLCanvasElement>) => {
+      // Skip click handling if this was a drag operation
+      if (consumeDragState()) {
+        return
+      }
+
+      const canvas = canvasRef.current
+      if (!canvas) return
+
+      const rect = canvas.getBoundingClientRect()
+      const dpr = window.devicePixelRatio || 1
+      const x = (e.clientX - rect.left) * dpr
+      const y = (e.clientY - rect.top) * dpr
+
+      // Convert to world coordinates
+      const worldX = (x / dpr - viewport.offsetX) / viewport.zoom
+      const worldY = (y / dpr - viewport.offsetY) / viewport.zoom
+
+      // Find clicked node using circular hit testing
+      const clickedNode = nodes.find((node) => {
+        const dx = worldX - node.x
+        const dy = worldY - node.y
+        const distance = Math.sqrt(dx * dx + dy * dy)
+        return distance <= node.radius
+      })
+
+      if (clickedNode) {
+        setFocusedPerson(clickedNode.id)
+      }
+    },
+    [nodes, viewport, setFocusedPerson, consumeDragState]
+  )
+
+  // Handle double-click to center on node - using circular hit testing
+  const handleDoubleClick = useCallback(
     (e: React.MouseEvent<HTMLCanvasElement>) => {
       const canvas = canvasRef.current
       if (!canvas) return
@@ -81,25 +120,20 @@ export function FamilyTreeCanvas() {
       const worldX = (x / dpr - viewport.offsetX) / viewport.zoom
       const worldY = (y / dpr - viewport.offsetY) / viewport.zoom
 
-      // Find clicked node
+      // Find double-clicked node using circular hit testing
       const clickedNode = nodes.find((node) => {
-        const halfWidth = node.width / 2
-        const halfHeight = node.height / 2
-        return (
-          worldX >= node.x - halfWidth &&
-          worldX <= node.x + halfWidth &&
-          worldY >= node.y - halfHeight &&
-          worldY <= node.y + halfHeight
-        )
+        const dx = worldX - node.x
+        const dy = worldY - node.y
+        const distance = Math.sqrt(dx * dx + dy * dy)
+        return distance <= node.radius
       })
 
       if (clickedNode) {
         setFocusedPerson(clickedNode.id)
-      } else {
-        setFocusedPerson(null)
+        centerOnNode(clickedNode.id)
       }
     },
-    [nodes, viewport, setFocusedPerson]
+    [nodes, viewport, setFocusedPerson, centerOnNode]
   )
 
   return (
@@ -121,6 +155,7 @@ export function FamilyTreeCanvas() {
         onMouseLeave={handleMouseUp}
         onWheel={handleWheel}
         onClick={handleCanvasClick}
+        onDoubleClick={handleDoubleClick}
       />
     </div>
   )

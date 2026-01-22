@@ -6,12 +6,13 @@ import type { Individual } from './individual'
 export type NodeSize = 'compact' | 'standard' | 'detailed'
 
 /**
- * Node dimensions by size
+ * Node dimensions by size - circular nodes with diameter
+ * Width = circle diameter, Height includes name label below
  */
-export const NODE_DIMENSIONS: Record<NodeSize, { width: number; height: number }> = {
-  compact: { width: 80, height: 50 },
-  standard: { width: 150, height: 70 },
-  detailed: { width: 200, height: 120 },
+export const NODE_DIMENSIONS: Record<NodeSize, { width: number; height: number; radius: number }> = {
+  compact: { width: 50, height: 70, radius: 25 },
+  standard: { width: 60, height: 85, radius: 30 },
+  detailed: { width: 80, height: 110, radius: 40 },
 }
 
 /**
@@ -31,7 +32,7 @@ export interface TreeNode {
   id: string
   person: Individual
 
-  // Layout position
+  // Layout position (center of node)
   x: number
   y: number
 
@@ -47,6 +48,7 @@ export interface TreeNode {
   // Dimensions (based on current node size setting)
   width: number
   height: number
+  radius: number // Circle radius for the photo area
 }
 
 /**
@@ -89,6 +91,16 @@ export interface TreeBounds {
 }
 
 /**
+ * Level band for background rendering
+ */
+export interface LevelBand {
+  level: number
+  minY: number
+  maxY: number
+  centerY: number
+}
+
+/**
  * Layout result from layout engine
  */
 export interface LayoutResult {
@@ -96,6 +108,7 @@ export interface LayoutResult {
   connections: Connection[]
   bounds: TreeBounds
   generationCount: number
+  levelBands: LevelBand[]
 }
 
 /**

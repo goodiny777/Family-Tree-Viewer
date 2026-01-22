@@ -215,3 +215,40 @@ GEDCOM 5.5.1 standard fields supported:
 - Range: `FROM 1950 TO 1960`, `BET 1950 AND 1960`
 - Partial: `1950`, `JAN 1950`
 - Modifiers: `AFT` (after), `BEF` (before)
+
+---
+
+## Feature Ideas (Not Approved)
+
+### Geographic Map View
+
+**Status**: Proposed (not approved)
+
+Display family members on an interactive map based on their location data (birth place, residence, death place, etc.).
+
+**Core Functionality:**
+- Show all people with location data on a geographic map
+- Extract coordinates from GEDCOM place fields (PLAC) via geocoding
+- Support multiple location types: birth, residence, death, burial, marriage
+
+**Marker Behavior:**
+- **Single person at location**: Display marker with person's initials (e.g., "JD" for John Doe)
+- **Multiple people at same location**: Display marker with count (e.g., "5" for 5 people)
+- Click marker to see list of people at that location
+- Click person in list to focus them in the tree view
+
+**Potential Libraries (free/open-source):**
+- Leaflet.js - lightweight, mobile-friendly
+- OpenStreetMap tiles - free map data
+- Nominatim - free geocoding service (with rate limits)
+
+**Privacy Considerations:**
+- All geocoding should be cached locally after first lookup
+- Option to use offline/pre-cached coordinates
+- No location data sent to external services without user consent
+
+**UI Integration:**
+- Toggle button in toolbar to switch between Tree View and Map View
+- Filter by location type (birth/residence/death)
+- Filter by time period
+- Sync selection between map and tree views

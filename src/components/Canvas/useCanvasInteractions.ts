@@ -1,9 +1,14 @@
 import { useRef, useCallback } from 'react'
 import { useStore } from '../../store'
 
+// Minimum distance to consider a drag (in pixels)
+const DRAG_THRESHOLD = 5
+
 export function useCanvasInteractions(canvasRef: React.RefObject<HTMLCanvasElement | null>) {
   const isDraggingRef = useRef(false)
+  const hasDraggedRef = useRef(false)
   const lastMousePosRef = useRef({ x: 0, y: 0 })
+  const dragStartPosRef = useRef({ x: 0, y: 0 })
 
   const { pan, zoom, viewport } = useStore((state) => state.viewport)
 
@@ -11,7 +16,9 @@ export function useCanvasInteractions(canvasRef: React.RefObject<HTMLCanvasEleme
     if (e.button !== 0) return // Only left click
 
     isDraggingRef.current = true
+    hasDraggedRef.current = false
     lastMousePosRef.current = { x: e.clientX, y: e.clientY }
+    dragStartPosRef.current = { x: e.clientX, y: e.clientY }
 
     // Prevent text selection while dragging
     e.preventDefault()
@@ -23,6 +30,14 @@ export function useCanvasInteractions(canvasRef: React.RefObject<HTMLCanvasEleme
 
       const deltaX = e.clientX - lastMousePosRef.current.x
       const deltaY = e.clientY - lastMousePosRef.current.y
+
+      // Check if we've moved beyond drag threshold
+      const totalDeltaX = e.clientX - dragStartPosRef.current.x
+      const totalDeltaY = e.clientY - dragStartPosRef.current.y
+      const distance = Math.sqrt(totalDeltaX * totalDeltaX + totalDeltaY * totalDeltaY)
+      if (distance > DRAG_THRESHOLD) {
+        hasDraggedRef.current = true
+      }
 
       pan(deltaX, deltaY)
 
@@ -56,11 +71,19 @@ export function useCanvasInteractions(canvasRef: React.RefObject<HTMLCanvasEleme
     [canvasRef, zoom, viewport.zoom]
   )
 
+  // Check if a drag just occurred and reset the flag
+  const consumeDragState = useCallback(() => {
+    const wasDragging = hasDraggedRef.current
+    hasDraggedRef.current = false
+    return wasDragging
+  }, [])
+
   return {
     handleMouseDown,
     handleMouseMove,
     handleMouseUp,
     handleWheel,
     isDragging: isDraggingRef.current,
+    consumeDragState,
   }
 }

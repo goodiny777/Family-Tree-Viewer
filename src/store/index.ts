@@ -9,6 +9,7 @@ import type {
   Connection,
   TreeBounds,
   RecentFile,
+  LevelBand,
 } from '../types'
 
 /**
@@ -35,9 +36,10 @@ interface TreeSlice {
   connections: Connection[]
   bounds: TreeBounds
   generationCount: number
+  levelBands: LevelBand[]
 
   // Actions
-  setLayout: (nodes: TreeNode[], connections: Connection[], bounds: TreeBounds, generationCount: number) => void
+  setLayout: (nodes: TreeNode[], connections: Connection[], bounds: TreeBounds, generationCount: number, levelBands: LevelBand[]) => void
   clearLayout: () => void
 }
 
@@ -60,6 +62,7 @@ interface ViewportSlice {
  */
 interface SelectionSlice {
   selection: SelectionState
+  expandedFamilyIds: Set<string>
 
   // Actions
   setFocusedPerson: (personId: string | null) => void
@@ -67,6 +70,8 @@ interface SelectionSlice {
   addHighlightedId: (id: string) => void
   removeHighlightedId: (id: string) => void
   clearHighlights: () => void
+  toggleFamilyExpansion: (personId: string) => void
+  clearFamilyExpansions: () => void
 }
 
 /**
@@ -137,6 +142,7 @@ const DEFAULT_SETTINGS: AppSettings = {
   theme: 'light',
   viewMode: 'all',
   generationDepth: 10,
+  generationFilterEnabled: false,
   enableAnimations: true,
   language: 'en',
 }
@@ -216,15 +222,16 @@ export const useStore = create<StoreState>()(
           connections: [],
           bounds: DEFAULT_BOUNDS,
           generationCount: 0,
+          levelBands: [],
 
-          setLayout: (nodes, connections, bounds, generationCount) =>
+          setLayout: (nodes, connections, bounds, generationCount, levelBands) =>
             set((state) => ({
-              tree: { ...state.tree, nodes, connections, bounds, generationCount },
+              tree: { ...state.tree, nodes, connections, bounds, generationCount, levelBands },
             })),
 
           clearLayout: () =>
             set((state) => ({
-              tree: { ...state.tree, nodes: [], connections: [], bounds: DEFAULT_BOUNDS, generationCount: 0 },
+              tree: { ...state.tree, nodes: [], connections: [], bounds: DEFAULT_BOUNDS, generationCount: 0, levelBands: [] },
             })),
         },
 
@@ -339,6 +346,7 @@ export const useStore = create<StoreState>()(
         // Selection slice
         selection: {
           selection: DEFAULT_SELECTION,
+          expandedFamilyIds: new Set<string>(),
 
           setFocusedPerson: (personId) =>
             set((state) => ({
@@ -388,6 +396,32 @@ export const useStore = create<StoreState>()(
               selection: {
                 ...state.selection,
                 selection: { ...state.selection.selection, highlightedIds: new Set() },
+              },
+            })),
+
+          toggleFamilyExpansion: (personId) =>
+            set((state) => {
+              const newIds = new Set(state.selection.expandedFamilyIds)
+              if (newIds.has(personId)) {
+                newIds.delete(personId)
+              } else {
+                // Clear previous expansions and add new one (only one expanded at a time)
+                newIds.clear()
+                newIds.add(personId)
+              }
+              return {
+                selection: {
+                  ...state.selection,
+                  expandedFamilyIds: newIds,
+                },
+              }
+            }),
+
+          clearFamilyExpansions: () =>
+            set((state) => ({
+              selection: {
+                ...state.selection,
+                expandedFamilyIds: new Set<string>(),
               },
             })),
         },
@@ -450,13 +484,30 @@ export const useStore = create<StoreState>()(
           isShortcutsOverlayOpen: false,
 
           toggleSidePanel: () =>
-            set((state) => ({
-              ui: { ...state.ui, isSidePanelOpen: !state.ui.isSidePanelOpen },
-            })),
+            set((state) => {
+              const willClose = state.ui.isSidePanelOpen
+              return {
+                ui: { ...state.ui, isSidePanelOpen: !state.ui.isSidePanelOpen },
+                // Clear focused person when closing the sidebar
+                selection: willClose
+                  ? {
+                      ...state.selection,
+                      selection: { ...state.selection.selection, focusedPersonId: null },
+                    }
+                  : state.selection,
+              }
+            }),
 
           setSidePanelOpen: (open) =>
             set((state) => ({
               ui: { ...state.ui, isSidePanelOpen: open },
+              // Clear focused person when closing the sidebar
+              selection: !open
+                ? {
+                    ...state.selection,
+                    selection: { ...state.selection.selection, focusedPersonId: null },
+                  }
+                : state.selection,
             })),
 
           setSidePanelTab: (tab) =>
@@ -483,9 +534,24 @@ export const useStore = create<StoreState>()(
       {
         name: 'familytree-storage',
         partialize: (state) => ({
-          settings: state.settings,
-          recentFiles: state.recentFiles,
+          // Only persist data, not functions (functions can't be serialized)
+          settings: { settings: state.settings.settings },
+          recentFiles: { recentFiles: state.recentFiles.recentFiles },
         }),
+        merge: (persistedState, currentState) => {
+          const persisted = persistedState as Partial<StoreState> | undefined
+          return {
+            ...currentState,
+            settings: {
+              ...currentState.settings,
+              settings: persisted?.settings?.settings ?? currentState.settings.settings,
+            },
+            recentFiles: {
+              ...currentState.recentFiles,
+              recentFiles: persisted?.recentFiles?.recentFiles ?? currentState.recentFiles.recentFiles,
+            },
+          }
+        },
       }
     )
   )

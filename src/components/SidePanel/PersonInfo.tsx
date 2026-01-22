@@ -139,8 +139,82 @@ export function PersonInfo() {
                 {edu.date && (
                   <p className="font-body text-small text-text-secondary">{edu.date}</p>
                 )}
+                {edu.place && (
+                  <p className="font-body text-small text-text-muted">{edu.place}</p>
+                )}
               </div>
             ))}
+          </div>
+        </section>
+      )}
+
+      {/* Contact Info */}
+      {(person.email || person.phone || person.residence?.address) && (
+        <section>
+          <h3 className="mb-2 font-body text-h3 text-text-primary">Contact</h3>
+          <div className="rounded-lg bg-white p-3 space-y-1">
+            {person.email && (
+              <p className="font-body text-small text-text-primary">{person.email}</p>
+            )}
+            {person.phone && (
+              <p className="font-body text-small text-text-primary">{person.phone}</p>
+            )}
+            {person.residence?.address && (
+              <p className="font-body text-small text-text-secondary">
+                {[
+                  person.residence.address.line1,
+                  person.residence.address.city,
+                  person.residence.address.state,
+                  person.residence.address.country
+                ].filter(Boolean).join(', ')}
+              </p>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* Religion & Nationality */}
+      {(person.religion || person.nationality) && (
+        <section>
+          <h3 className="mb-2 font-body text-h3 text-text-primary">Details</h3>
+          <div className="rounded-lg bg-white p-3 space-y-1">
+            {person.religion && (
+              <p className="font-body text-small text-text-primary">
+                <span className="text-text-muted">Religion:</span> {person.religion}
+              </p>
+            )}
+            {person.nationality && (
+              <p className="font-body text-small text-text-primary">
+                <span className="text-text-muted">Nationality:</span> {person.nationality}
+              </p>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* Custom Events (Hobbies, Languages, etc.) */}
+      {person.events && person.events.length > 0 && (
+        <section>
+          <h3 className="mb-2 font-body text-h3 text-text-primary">Interests</h3>
+          <div className="space-y-2">
+            {person.events.map((event, i) => (
+              <div key={i} className="rounded-lg bg-white p-3">
+                <p className="font-body text-small text-text-muted">{event.type}</p>
+                <p className="font-body text-body text-text-primary">{event.value}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Notes */}
+      {person.notes && person.notes.length > 0 && (
+        <section>
+          <h3 className="mb-2 font-body text-h3 text-text-primary">Notes</h3>
+          <div className="rounded-lg bg-white p-3">
+            <p className="font-body text-small text-text-secondary whitespace-pre-wrap">
+              {person.notes[0].replace(/<[^>]*>/g, '')}
+            </p>
           </div>
         </section>
       )}

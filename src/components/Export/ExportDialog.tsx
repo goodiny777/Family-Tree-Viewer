@@ -4,6 +4,7 @@ import { Button } from '../ui/Button'
 import { Tabs, TabsList, Tab } from '../ui/Tabs'
 import { Slider } from '../ui/Slider'
 import { Toggle } from '../ui/Toggle'
+import { exportTree } from '../../core/export'
 
 type ExportFormat = 'png' | 'pdf' | 'svg'
 type ExportScope = 'visible' | 'full' | 'selection'
@@ -19,6 +20,11 @@ export function ExportDialog() {
 
   const { setExportDialogOpen } = useStore((state) => state.ui)
   const nodes = useStore((state) => state.tree.nodes)
+  const connections = useStore((state) => state.tree.connections)
+  const bounds = useStore((state) => state.tree.bounds)
+  const viewport = useStore((state) => state.viewport.viewport)
+  const settings = useStore((state) => state.settings.settings)
+  const focusedPersonId = useStore((state) => state.selection.selection.focusedPersonId)
 
   // Estimate file size (rough calculation)
   const estimatedSize = useCallback(() => {
@@ -32,15 +38,16 @@ export function ExportDialog() {
     setIsExporting(true)
 
     try {
-      // TODO: Implement actual export logic
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      console.log('Export with settings:', {
+      await exportTree({
         format,
         scope,
-        generationDepth,
-        includePhotos,
-        includePopulation,
-        includeSelection,
+        nodes,
+        connections,
+        bounds,
+        settings,
+        viewport,
+        focusedPersonId,
+        fileName: 'family-tree',
       })
       setExportDialogOpen(false)
     } catch (error) {
@@ -48,7 +55,7 @@ export function ExportDialog() {
     } finally {
       setIsExporting(false)
     }
-  }, [format, scope, generationDepth, includePhotos, includePopulation, includeSelection, setExportDialogOpen])
+  }, [format, scope, nodes, connections, bounds, settings, viewport, focusedPersonId, setExportDialogOpen])
 
   const handleBackdropClick = useCallback(
     (e: React.MouseEvent) => {

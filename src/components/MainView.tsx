@@ -2,6 +2,7 @@ import { TopBar } from './Navigation/TopBar'
 import { FamilyTreeCanvas } from './Canvas/FamilyTreeCanvas'
 import { ZoomControls } from './Navigation/ZoomControls'
 import { GenerationSlider } from './Navigation/GenerationSlider'
+import { ViewModeSelector } from './Navigation/ViewModeSelector'
 import { Minimap } from './Navigation/Minimap'
 import { SidePanel } from './SidePanel/SidePanel'
 import { SearchOverlay } from './Search/SearchOverlay'
@@ -9,6 +10,7 @@ import { ExportDialog } from './Export/ExportDialog'
 import { ShortcutsOverlay } from './Help/ShortcutsOverlay'
 import { useStore } from '../store'
 import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts'
+import { useTreeLayout } from '../hooks/useTreeLayout'
 
 export function MainView() {
   const isSearchOpen = useStore((state) => state.ui.isSearchOpen)
@@ -17,6 +19,9 @@ export function MainView() {
 
   // Enable keyboard shortcuts
   useKeyboardShortcuts()
+
+  // Generate layout when data changes
+  useTreeLayout()
 
   return (
     <div className="relative h-full w-full overflow-hidden">
@@ -30,6 +35,7 @@ export function MainView() {
       <div className="absolute bottom-6 left-6 flex flex-col gap-4">
         <ZoomControls />
         <GenerationSlider />
+        <ViewModeSelector />
         <Minimap />
       </div>
 
