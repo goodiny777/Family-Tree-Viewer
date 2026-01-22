@@ -46,7 +46,7 @@ export function PersonInfo() {
   }
 
   return (
-    <div className="space-y-6 overflow-y-auto scrollbar-thin px-1">
+    <div className="space-y-6 px-1 pb-4">
       {/* Photo placeholder */}
       <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-bg-aged">
         <svg

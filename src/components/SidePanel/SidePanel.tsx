@@ -45,18 +45,18 @@ export function SidePanel() {
           <Tabs
             value={sidePanelTab}
             onChange={(value) => setSidePanelTab(value as 'info' | 'settings')}
-            className="p-3 pt-12"
+            className="p-3 pt-12 flex-1 flex flex-col min-h-0"
           >
             <TabsList>
               <Tab value="info">Person Info</Tab>
               <Tab value="settings">Settings</Tab>
             </TabsList>
 
-            <TabsPanel value="info" className="mt-4">
+            <TabsPanel value="info" className="mt-4 flex-1 overflow-y-auto min-h-0 scrollbar-thin">
               <PersonInfo />
             </TabsPanel>
 
-            <TabsPanel value="settings" className="mt-4">
+            <TabsPanel value="settings" className="mt-4 flex-1 overflow-y-auto min-h-0 scrollbar-thin">
               <Settings />
             </TabsPanel>
           </Tabs>

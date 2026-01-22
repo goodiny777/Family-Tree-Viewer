@@ -81,7 +81,8 @@ export function generateLayout(
     personToFamilyAsSpouse,
     cfg,
     nodeWidth,
-    nodeHeight
+    nodeHeight,
+    cfg.viewMode || 'all'
   )
 
   // Create tree nodes
@@ -194,14 +195,16 @@ function getVisibleIndividuals(
     case 'pedigree':
       visible.add(focusedPersonId)
       collectAncestors(focusedPersonId, childToParents, visible)
-      addSpouses(visible, data, personToFamilyAsSpouse)
+      // Only add spouses who have visible children (direct ancestors in the pedigree)
+      addSpousesWithConnections(visible, data, personToFamilyAsSpouse)
       break
 
     case 'hourglass':
       visible.add(focusedPersonId)
       collectAncestors(focusedPersonId, childToParents, visible)
       collectDescendants(focusedPersonId, parentToChildren, visible)
-      addSpouses(visible, data, personToFamilyAsSpouse)
+      // Only add spouses who have visible children (in the hourglass lineage)
+      addSpousesWithConnections(visible, data, personToFamilyAsSpouse)
       break
 
     case 'family':
@@ -256,15 +259,25 @@ function collectDescendants(personId: string, parentToChildren: Map<string, stri
   }
 }
 
-function addSpouses(visible: Set<string>, data: GedcomData, personToFamilyAsSpouse: Map<string, string[]>): void {
+/**
+ * Add spouses to visible set, but ONLY if they have at least one visible child.
+ * This ensures spouses don't appear as disconnected nodes in pedigree/hourglass views.
+ */
+function addSpousesWithConnections(visible: Set<string>, data: GedcomData, personToFamilyAsSpouse: Map<string, string[]>): void {
   const toAdd: string[] = []
   for (const personId of visible) {
     const families = personToFamilyAsSpouse.get(personId) || []
     for (const familyId of families) {
       const family = data.families.get(familyId)
       if (family) {
-        if (family.husband && !visible.has(family.husband)) toAdd.push(family.husband)
-        if (family.wife && !visible.has(family.wife)) toAdd.push(family.wife)
+        // Check if this family has at least one visible child
+        const hasVisibleChild = family.children.some(childId => visible.has(childId))
+
+        if (hasVisibleChild) {
+          // Only add the spouse if the family has visible children (connection lines)
+          if (family.husband && !visible.has(family.husband)) toAdd.push(family.husband)
+          if (family.wife && !visible.has(family.wife)) toAdd.push(family.wife)
+        }
       }
     }
   }
@@ -473,8 +486,8 @@ function calculateGenerationsFromRoots(
   // Handle disconnected individuals
   for (const id of data.individuals.keys()) {
     if (!tempGenerations.has(id)) {
-      const person = data.individuals.get(id)!
-      const birthYear = getBirthYear(person)
+      const person = data.individuals.get(id)
+      const birthYear = person ? getBirthYear(person) : null
       if (birthYear) {
         const estimatedGen = Math.floor((birthYear - 1900) / 30)
         tempGenerations.set(id, Math.max(0, estimatedGen))
@@ -576,7 +589,8 @@ function calculateVerticalPositions(
   personToFamilyAsSpouse: Map<string, string[]>,
   config: LayoutConfig,
   nodeWidth: number,
-  _nodeHeight: number
+  _nodeHeight: number,
+  viewMode: ViewMode
 ): Map<string, PersonPosition> {
   const positions = new Map<string, PersonPosition>()
   const { horizontalSpacing, verticalSpacing, siblingSpacing, coupleSpacing, maxGenerations } = config
@@ -610,7 +624,9 @@ function calculateVerticalPositions(
   let sortedLevels = [...byLevel.keys()].sort((a, b) => a - b)
 
   // Apply maxGenerations filter if set
-  if (maxGenerations !== undefined && maxGenerations > 0) {
+  // For pedigree view: show ALL ancestors (no upper limit), don't apply maxGenerations
+  // For hourglass view: apply symmetric filtering (both ancestors and descendants limited)
+  if (maxGenerations !== undefined && maxGenerations > 0 && viewMode !== 'pedigree') {
     const halfMax = Math.floor(maxGenerations / 2)
     sortedLevels = sortedLevels.filter(level => level >= -halfMax && level <= halfMax)
   }
@@ -700,8 +716,10 @@ function calculateVerticalPositions(
     // Sort siblings within each group by birth year
     for (const [, siblings] of siblingGroups) {
       siblings.sort((a, b) => {
-        const aYear = getBirthYear(data.individuals.get(a)!) ?? 0
-        const bYear = getBirthYear(data.individuals.get(b)!) ?? 0
+        const aPerson = data.individuals.get(a)
+        const bPerson = data.individuals.get(b)
+        const aYear = aPerson ? (getBirthYear(aPerson) ?? 0) : 0
+        const bYear = bPerson ? (getBirthYear(bPerson) ?? 0) : 0
         return aYear - bYear
       })
     }
@@ -710,8 +728,10 @@ function calculateVerticalPositions(
     const sortedSiblingGroups = [...siblingGroups.entries()].sort((a, b) => {
       const aFirst = a[1][0]
       const bFirst = b[1][0]
-      const aYear = aFirst ? (getBirthYear(data.individuals.get(aFirst)!) ?? 0) : 0
-      const bYear = bFirst ? (getBirthYear(data.individuals.get(bFirst)!) ?? 0) : 0
+      const aFirstPerson = aFirst ? data.individuals.get(aFirst) : undefined
+      const bFirstPerson = bFirst ? data.individuals.get(bFirst) : undefined
+      const aYear = aFirstPerson ? (getBirthYear(aFirstPerson) ?? 0) : 0
+      const bYear = bFirstPerson ? (getBirthYear(bFirstPerson) ?? 0) : 0
       return aYear - bYear
     })
 
@@ -737,15 +757,18 @@ function calculateVerticalPositions(
           if (!family) continue
 
           const spouseId = family.husband === siblingId ? family.wife : family.husband
-          if (spouseId && generations.get(spouseId) === level) {
+          // Only add spouse if they exist in filtered data and are at this level
+          if (spouseId && data.individuals.has(spouseId) && generations.get(spouseId) === level) {
             spouses.push(spouseId)
           }
         }
 
         // Sort spouses by birth year
         spouses.sort((a, b) => {
-          const aYear = getBirthYear(data.individuals.get(a)!) ?? 0
-          const bYear = getBirthYear(data.individuals.get(b)!) ?? 0
+          const aPerson = data.individuals.get(a)
+          const bPerson = data.individuals.get(b)
+          const aYear = aPerson ? (getBirthYear(aPerson) ?? 0) : 0
+          const bYear = bPerson ? (getBirthYear(bPerson) ?? 0) : 0
           return aYear - bYear
         })
 
@@ -933,6 +956,47 @@ function calculateVerticalPositions(
     }
   }
 
+  // Third pass: resolve collisions by pushing overlapping nodes apart
+  const minNodeSpacing = circleDiameter + baseSiblingGap // Minimum distance between node centers
+
+  for (const level of sortedLevels) {
+    const peopleAtLevel = byLevel.get(level) || []
+    if (peopleAtLevel.length < 2) continue
+
+    // Get positions for this level and sort by X
+    const levelPositions = peopleAtLevel
+      .map(id => positions.get(id))
+      .filter((pos): pos is PersonPosition => pos !== undefined)
+      .sort((a, b) => a.x - b.x)
+
+    if (levelPositions.length < 2) continue
+
+    // Calculate original center for re-centering after adjustment
+    const originalCenter = (levelPositions[0].x + levelPositions[levelPositions.length - 1].x) / 2
+
+    // Push apart overlapping nodes (left to right)
+    for (let i = 1; i < levelPositions.length; i++) {
+      const prev = levelPositions[i - 1]
+      const curr = levelPositions[i]
+      const gap = curr.x - prev.x
+
+      if (gap < minNodeSpacing) {
+        // Push current node (and all nodes to its right) to the right
+        const shift = minNodeSpacing - gap
+        for (let j = i; j < levelPositions.length; j++) {
+          levelPositions[j].x += shift
+        }
+      }
+    }
+
+    // Re-center the level around the original center to minimize overall drift
+    const newCenter = (levelPositions[0].x + levelPositions[levelPositions.length - 1].x) / 2
+    const centerOffset = originalCenter - newCenter
+    for (const pos of levelPositions) {
+      pos.x += centerOffset
+    }
+  }
+
   return positions
 }
 
@@ -974,8 +1038,8 @@ function createTreeNodes(
 
 /**
  * Generate connections for vertical layout
- * Connections flow top-to-bottom with organic branch-like curves
- * Parents are above, children are below
+ * Each parent (father/mother) has a direct connection to each child
+ * No spouse-to-spouse connections
  */
 function generateVerticalConnections(data: GedcomData, nodes: TreeNode[]): Connection[] {
   const connections: Connection[] = []
@@ -986,101 +1050,66 @@ function generateVerticalConnections(data: GedcomData, nodes: TreeNode[]): Conne
     const husbandNode = family.husband ? nodeMap.get(family.husband) : undefined
     const wifeNode = family.wife ? nodeMap.get(family.wife) : undefined
 
-    if (husbandNode && wifeNode) {
-      const connId = `spouse-${family.husband}-${family.wife}`
-      if (!connectionSet.has(connId)) {
-        connectionSet.add(connId)
+    // Parent-child connections: each parent connects directly to each child
+    for (const childId of family.children) {
+      const childNode = nodeMap.get(childId)
+      if (!childNode) continue
 
-        // Determine left/right
-        const leftNode = husbandNode.x < wifeNode.x ? husbandNode : wifeNode
-        const rightNode = husbandNode.x < wifeNode.x ? wifeNode : husbandNode
+      const childX = childNode.x
+      const childY = childNode.y // Connect to top of child node
 
-        connections.push({
-          id: connId,
-          type: 'spouse',
-          sourceId: leftNode.id,
-          targetId: rightNode.id,
-          path: {
-            startX: leftNode.x,
-            startY: leftNode.y,
-            endX: rightNode.x,
-            endY: rightNode.y,
-          },
-        })
-      }
-    }
+      // Father to child connection
+      if (husbandNode) {
+        const connId = `father-${family.husband}-${childId}`
+        if (!connectionSet.has(connId)) {
+          connectionSet.add(connId)
 
-    // Parent-child connections (vertical from parents to children)
-    if (family.children.length > 0) {
-      // Find the center point between parents (or single parent position)
-      let parentCenterX: number
-      let parentY: number
-      let spouseLineY: number | null = null
+          const parentX = husbandNode.x
+          const parentY = husbandNode.y // Bottom of parent node
+          const midY = (parentY + childY) / 2
 
-      if (husbandNode && wifeNode) {
-        parentCenterX = (husbandNode.x + wifeNode.x) / 2
-        parentY = husbandNode.y + husbandNode.radius
-        spouseLineY = husbandNode.y  // The Y of the spouse connection line
-      } else if (husbandNode) {
-        parentCenterX = husbandNode.x
-        parentY = husbandNode.y + husbandNode.radius
-      } else if (wifeNode) {
-        parentCenterX = wifeNode.x
-        parentY = wifeNode.y + wifeNode.radius
-      } else {
-        continue
-      }
-
-      // Add vertical drop line from spouse connection to child connection start point
-      // This creates the "T" junction connecting the spouse line to the children
-      if (spouseLineY !== null) {
-        const dropConnId = `drop-${family.husband}-${family.wife}`
-        if (!connectionSet.has(dropConnId)) {
-          connectionSet.add(dropConnId)
           connections.push({
-            id: dropConnId,
+            id: connId,
             type: 'parent-child',
-            sourceId: family.husband || '',
-            targetId: family.wife || '',
+            sourceId: family.husband!,
+            targetId: childId,
             path: {
-              startX: parentCenterX,
-              startY: spouseLineY,
-              endX: parentCenterX,
-              endY: parentY,
+              startX: parentX,
+              startY: parentY,
+              endX: childX,
+              endY: childY,
+              controlPoint1: { x: parentX, y: midY },
+              controlPoint2: { x: childX, y: midY },
             },
           })
         }
       }
 
-      // Connect each child with organic curves
-      for (const childId of family.children) {
-        const childNode = nodeMap.get(childId)
-        if (!childNode) continue
+      // Mother to child connection
+      if (wifeNode) {
+        const connId = `mother-${family.wife}-${childId}`
+        if (!connectionSet.has(connId)) {
+          connectionSet.add(connId)
 
-        const connId = `parent-${family.husband || 'none'}-${family.wife || 'none'}-${childId}`
-        if (connectionSet.has(connId)) continue
-        connectionSet.add(connId)
+          const parentX = wifeNode.x
+          const parentY = wifeNode.y + wifeNode.radius // Bottom of parent node
+          const midY = (parentY + childY) / 2
 
-        const childX = childNode.x
-        const childY = childNode.y
-
-        // Midpoint for the bezier curve
-        const midY = (parentY + childY) / 2
-
-        connections.push({
-          id: connId,
-          type: 'parent-child',
-          sourceId: family.husband || family.wife || '',
-          targetId: childId,
-          path: {
-            startX: parentCenterX,
-            startY: parentY,
-            endX: childX,
-            endY: childY,
-            controlPoint1: { x: parentCenterX, y: midY },
-            controlPoint2: { x: childX, y: midY },
-          },
-        })
+          connections.push({
+            id: connId,
+            type: 'parent-child',
+            sourceId: family.wife!,
+            targetId: childId,
+            path: {
+              startX: parentX,
+              startY: parentY,
+              endX: childX,
+              endY: childY,
+              controlPoint1: { x: parentX, y: midY },
+              controlPoint2: { x: childX, y: midY },
+            },
+          })
+        }
       }
     }
   }

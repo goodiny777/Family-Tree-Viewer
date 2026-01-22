@@ -7,7 +7,7 @@ export function Settings() {
   const { settings, setSettings } = useStore((state) => state.settings)
 
   return (
-    <div className="space-y-6 overflow-y-auto scrollbar-thin px-1">
+    <div className="space-y-6 px-1 pb-4">
       {/* Node Size */}
       <section>
         <h3 className="mb-3 font-body text-h3 text-text-primary">Node Size</h3>
