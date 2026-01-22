@@ -30,3 +30,7 @@ coverage/
 # GEDCOM files (contain personal family data)
 *.ged
 *.GED
+
+# Firebase
+.firebase/
+firebase-debug.log
