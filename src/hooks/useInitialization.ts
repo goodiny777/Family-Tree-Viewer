@@ -33,7 +33,7 @@ export function useInitialization() {
         console.warn('Failed to restore cached GEDCOM:', error)
       }
     }
-  }, []) // Run only once on mount
+  }, [hasData, setGedcomData]) // Run only once on mount (dependencies included)
 
   // Apply theme
   useEffect(() => {
