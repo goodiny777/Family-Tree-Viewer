@@ -158,7 +158,7 @@ export function MobileViewModeSheet() {
               </div>
 
               <p className="mt-3 font-body text-sm text-text-muted text-center">
-                {t('generationSlider.showing', `Showing ${settings.generationDepth} of ${generationCount} generations`, {
+                {t('generationSlider.showing', 'Showing {{current}} of {{total}} generations', {
                   current: settings.generationDepth,
                   total: generationCount,
                 })}
