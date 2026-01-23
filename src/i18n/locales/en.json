@@ -110,6 +110,7 @@
     "language": "Language"
   },
   "viewModes": {
+    "title": "View Mode",
     "all": "All",
     "family": "Family",
     "hourglass": "Hourglass",

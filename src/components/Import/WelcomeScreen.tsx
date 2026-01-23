@@ -2,6 +2,7 @@ import { useCallback, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useStore } from '../../store'
 import { parseGedcomFile } from '../../core/gedcom/parser'
+import { saveGedcomToStorage } from '../../utils/gedcomStorage'
 import { Button } from '../ui/Button'
 
 export function WelcomeScreen() {
@@ -27,6 +28,9 @@ export function WelcomeScreen() {
       try {
         const text = await file.text()
         const data = parseGedcomFile(text)
+
+        // Save to localStorage for persistence across page reloads
+        saveGedcomToStorage(text, file.name)
 
         setGedcomData(data)
         addRecentFile({
@@ -90,6 +94,8 @@ export function WelcomeScreen() {
       }
       const text = await response.text()
       const data = parseGedcomFile(text)
+
+      // Note: Sample file is not saved to localStorage - only user files are persisted
 
       setGedcomData(data)
       addRecentFile({

@@ -11,6 +11,7 @@ import type {
   RecentFile,
   LevelBand,
 } from '../types'
+import { clearGedcomStorage } from '../utils/gedcomStorage'
 
 /**
  * GEDCOM data slice
@@ -204,12 +205,15 @@ export const useStore = create<StoreState>()(
               gedcom: { ...state.gedcom, data, hasData: true, error: null },
             })),
 
-          clearGedcomData: () =>
-            set((state) => ({
+          clearGedcomData: () => {
+            // Clear cached GEDCOM from localStorage
+            clearGedcomStorage()
+            return set((state) => ({
               gedcom: { ...state.gedcom, data: null, hasData: false },
               tree: { ...state.tree, nodes: [], connections: [], bounds: DEFAULT_BOUNDS, generationCount: 0 },
               selection: { ...state.selection, selection: DEFAULT_SELECTION },
-            })),
+            }))
+          },
 
           setLoading: (loading) =>
             set((state) => ({

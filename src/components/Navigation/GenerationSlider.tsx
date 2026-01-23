@@ -14,7 +14,7 @@ export function GenerationSlider() {
     setSettings({ generationDepth: parseInt(e.target.value, 10) })
   }
 
-  const maxGenerations = Math.max(generationCount, settings.generationDepth, 5)
+  const maxGenerations = Math.max(generationCount, 1)
 
   return (
     <div className="panel p-3 w-48">

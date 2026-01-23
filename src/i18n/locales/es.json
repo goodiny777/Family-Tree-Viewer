@@ -110,6 +110,7 @@
     "language": "Idioma"
   },
   "viewModes": {
+    "title": "Modo de vista",
     "all": "Todo",
     "family": "Familia",
     "hourglass": "Reloj de arena",

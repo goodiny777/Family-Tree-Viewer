@@ -76,6 +76,8 @@ export default {
         'slide-out': 'slideOut 250ms ease-out',
         'fade-in': 'fadeIn 200ms ease',
         'zoom': 'zoom 200ms ease-out',
+        'slide-up': 'slideUp 300ms ease-out',
+        'slide-down': 'slideDown 300ms ease-out',
       },
       keyframes: {
         slideIn: {
@@ -93,6 +95,14 @@ export default {
         zoom: {
           '0%': { transform: 'scale(0.95)' },
           '100%': { transform: 'scale(1)' },
+        },
+        slideUp: {
+          '0%': { transform: 'translateY(100%)' },
+          '100%': { transform: 'translateY(0)' },
+        },
+        slideDown: {
+          '0%': { transform: 'translateY(0)' },
+          '100%': { transform: 'translateY(100%)' },
         },
       },
       boxShadow: {

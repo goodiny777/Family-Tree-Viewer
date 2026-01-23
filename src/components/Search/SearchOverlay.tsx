@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useStore } from '../../store'
 import { Input } from '../ui/Input'
+import { useIsMobile } from '../../hooks/useIsMobile'
 import type { Individual } from '../../types'
 
 export function SearchOverlay() {
@@ -10,6 +11,7 @@ export function SearchOverlay() {
   const [results, setResults] = useState<Individual[]>([])
   const [selectedIndex, setSelectedIndex] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
+  const { isMobile } = useIsMobile()
 
   const { setSearchOpen } = useStore((state) => state.ui)
   const gedcomData = useStore((state) => state.gedcom.data)
@@ -110,7 +112,7 @@ export function SearchOverlay() {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center bg-black/30 pt-20 backdrop-blur-sm animate-fade-in"
+      className="fixed inset-0 z-50 flex items-start justify-center bg-black/30 pt-4 md:pt-20 px-4 md:px-0 backdrop-blur-sm animate-fade-in"
       onClick={handleBackdropClick}
     >
       <div className="w-full max-w-xl rounded-lg bg-white shadow-panel animate-zoom dark:bg-bg-canvas">
@@ -184,20 +186,22 @@ export function SearchOverlay() {
           </div>
         )}
 
-        {/* Keyboard hints */}
-        <div className="flex items-center justify-between border-t border-bg-aged px-4 py-2">
-          <div className="flex gap-4">
+        {/* Keyboard hints - hidden on mobile */}
+        {!isMobile && (
+          <div className="flex items-center justify-between border-t border-bg-aged px-4 py-2">
+            <div className="flex gap-4">
+              <span className="font-body text-small text-text-muted">
+                <kbd className="rounded bg-bg-aged px-1.5 py-0.5">↑↓</kbd> {t('search.navigate')}
+              </span>
+              <span className="font-body text-small text-text-muted">
+                <kbd className="rounded bg-bg-aged px-1.5 py-0.5">Enter</kbd> {t('search.select')}
+              </span>
+            </div>
             <span className="font-body text-small text-text-muted">
-              <kbd className="rounded bg-bg-aged px-1.5 py-0.5">↑↓</kbd> {t('search.navigate')}
-            </span>
-            <span className="font-body text-small text-text-muted">
-              <kbd className="rounded bg-bg-aged px-1.5 py-0.5">Enter</kbd> {t('search.select')}
+              <kbd className="rounded bg-bg-aged px-1.5 py-0.5">Esc</kbd> {t('search.close')}
             </span>
           </div>
-          <span className="font-body text-small text-text-muted">
-            <kbd className="rounded bg-bg-aged px-1.5 py-0.5">Esc</kbd> {t('search.close')}
-          </span>
-        </div>
+        )}
       </div>
     </div>
   )

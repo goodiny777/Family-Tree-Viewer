@@ -7,7 +7,61 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+#### Mobile View Support
+
+**Responsive Layout**
+- Added mobile breakpoint detection via `useIsMobile` hook (768px threshold)
+- Implemented touch gesture support: single finger pan, two finger pinch-to-zoom
+- Added safe area support for notched devices (iPhone X+)
+
+**Mobile-Specific Components**
+- `BottomSheet` - Full-screen drawer from bottom with swipe-to-close gesture
+- `MobileNavBar` - Bottom navigation bar (Search, Person, View, Settings)
+- `MobileFloatingControls` - Floating zoom buttons positioned on right side
+- `MobileViewModeSheet` - View mode selector and generation slider in bottom sheet
+
+**Layout Differences**
+- Side panel replaced with full-screen bottom sheet on mobile
+- TopBar buttons show icons only (no text labels)
+- Minimap hidden on mobile
+- Keyboard shortcut hints hidden on mobile
+
+#### GEDCOM Data Persistence
+
+**Auto-Save & Restore**
+- User-uploaded GEDCOM files are cached to localStorage when loaded
+- On page refresh or revisit, cached data is automatically restored
+- Tree view displays immediately without requiring file re-upload
+- Cache is cleared when user explicitly closes the tree (via Import button)
+- Sample file (`example.ged`) is NOT cached - it's for demo purposes only
+
+**Implementation**
+- Added `gedcomStorage.ts` utility for localStorage operations
+- Modified `useInitialization` hook to restore cached data on app start
+- Updated store's `clearGedcomData` to also clear the localStorage cache
+
 ### Fixed
+
+#### Google Analytics
+
+**Data Collection Not Working**
+- Fixed gtag function implementation that prevented analytics data from being sent
+- Changed from spread operator `(...args)` to `arguments` object as required by Google Tag Manager
+- Analytics events and page views now correctly sent to Google Analytics
+
+#### Mobile View Fixes
+
+**Missing View Mode Title**
+- Added missing `viewModes.title` translation key to all locale files (en, ru, he, es)
+- Fixed translation key reference from `viewMode.title` to `viewModes.title` in MobileViewModeSheet and MobileNavBar
+
+**Generation Slider Range**
+- Fixed generation slider to show full range from 1 to actual tree generation count
+- Removed hardcoded minimum of 5 generations that was limiting the slider range
+- Fixed generation count calculation to use ALL individuals, not just filtered ones
+- Slider now correctly shows total generations even when filter is enabled
 
 #### Pedigree & Hourglass View Improvements
 
