@@ -232,9 +232,21 @@ src/
 
 **Initialization Hook (`useInitialization`):**
 - Applied on app start in `App.tsx`
+- Restores cached GEDCOM data from localStorage
 - Syncs theme to DOM (`.dark` class on `<html>`)
 - Listens for system theme changes when `theme: 'system'`
 - Sets document `dir` and `lang` attributes for i18n
+
+**GEDCOM Data Caching:**
+
+| Key | Storage | Description |
+|-----|---------|-------------|
+| `familytree-gedcom-cache` | localStorage | Raw GEDCOM text + filename for session restore |
+
+- **User-uploaded files**: Saved to localStorage, restored on page refresh
+- **Sample file (`example.ged`)**: NOT saved - sample is for demo only
+- **Cache cleared**: When user clicks "Import" button to return to welcome screen
+- **Implementation**: `src/utils/gedcomStorage.ts`
 
 ## Performance Targets
 

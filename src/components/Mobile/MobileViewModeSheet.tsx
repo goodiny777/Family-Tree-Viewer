@@ -60,15 +60,15 @@ export function MobileViewModeSheet() {
     setSettings({ generationDepth: parseInt(e.target.value, 10) })
   }
 
-  const maxGenerations = Math.max(generationCount, settings.generationDepth, 5)
+  const maxGenerations = Math.max(generationCount, 1)
 
   return (
-    <BottomSheet isOpen={isOpen} onClose={() => setIsOpen(false)} title={t('viewMode.title')}>
+    <BottomSheet isOpen={isOpen} onClose={() => setIsOpen(false)} title={t('viewModes.title')}>
       <div className="p-4 space-y-6">
         {/* View Mode Selection */}
         <div>
           <h3 className="font-body text-sm font-medium text-text-primary mb-3">
-            {t('viewMode.title')}
+            {t('viewModes.title')}
           </h3>
           <div className="grid grid-cols-2 gap-2">
             {VIEW_MODES.map((mode) => {

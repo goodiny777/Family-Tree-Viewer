@@ -110,6 +110,7 @@
     "language": "Язык"
   },
   "viewModes": {
+    "title": "Режим просмотра",
     "all": "Все",
     "family": "Семья",
     "hourglass": "Песочные часы",

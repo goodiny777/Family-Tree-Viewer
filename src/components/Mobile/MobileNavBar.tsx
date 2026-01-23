@@ -53,7 +53,7 @@ export function MobileNavBar() {
     },
     {
       id: 'view',
-      label: t('viewMode.title'),
+      label: t('viewModes.title'),
       icon: (
         <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path

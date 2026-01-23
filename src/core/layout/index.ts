@@ -71,6 +71,9 @@ export function generateLayout(
   // Create filtered data
   const filteredData = filterGedcomData(data, visibleIds)
 
+  // Calculate generations for ALL individuals (for total generation count)
+  const allGenerations = calculateGenerationsFromFocus(data, focusedPersonId, childToParents, parentToChildren)
+
   // Calculate generations relative to focused person (0 = focused, negative = ancestors, positive = descendants)
   const generations = calculateGenerationsFromFocus(filteredData, focusedPersonId, childToParents, parentToChildren)
 
@@ -94,13 +97,15 @@ export function generateLayout(
   // Calculate bounds
   const bounds = calculateBounds(nodes)
 
-  // Count generations
-  if (nodes.length === 0) {
-    return { nodes: [], connections: [], bounds, generationCount: 0, levelBands: [] }
+  // Count total generations from ALL individuals (not just filtered)
+  // This ensures the slider always shows the full range
+  let generationCount = 0
+  if (allGenerations.size > 0) {
+    const allGenValues = Array.from(allGenerations.values())
+    const minGen = Math.min(...allGenValues)
+    const maxGen = Math.max(...allGenValues)
+    generationCount = maxGen - minGen + 1
   }
-  const minGen = Math.min(...nodes.map(n => n.generation))
-  const maxGen = Math.max(...nodes.map(n => n.generation))
-  const generationCount = maxGen - minGen + 1
 
   // Calculate level bands for background rendering
   const levelBands = calculateLevelBands(nodes, bounds)
